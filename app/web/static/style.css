@@ -1,0 +1,31 @@
+:root { --bg:#f5f7fa; --ink:#1b2430; --muted:#6b7686; --line:#dde3ea; --brand:#0e7c86; --side:#12324f; }
+* { box-sizing: border-box; }
+body { margin:0; display:flex; min-height:100vh; font-family: system-ui, "Noto Sans Khmer", sans-serif; background:var(--bg); color:var(--ink); }
+.sidebar { width:220px; background:var(--side); color:#fff; padding:20px 0; flex:none; }
+.brand { font-weight:700; padding:0 20px 16px; font-size:18px; }
+.sidebar nav a, .sidebar nav .soon { display:block; padding:10px 20px; color:#cfe3ee; text-decoration:none; }
+.sidebar nav a:hover, .sidebar nav a.active { background:rgba(255,255,255,.12); color:#fff; }
+.sidebar nav .soon { opacity:.4; cursor:not-allowed; }
+main { flex:1; padding:28px 32px; max-width:1100px; }
+h1 { margin:0 0 20px; } h2 { margin:28px 0 12px; font-size:18px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px; }
+.card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+.card .value { font-size:28px; font-weight:700; color:var(--brand); }
+.card .label { color:var(--muted); font-size:13px; margin-top:4px; }
+table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; font-size:14px; }
+th { background:#eef2f6; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+.muted { color:var(--muted); }
+.toolbar { display:flex; gap:8px; margin-bottom:14px; }
+input, textarea, select { font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:6px; width:100%; }
+.toolbar input { width:280px; }
+button { font:inherit; padding:8px 14px; border:0; border-radius:6px; background:var(--brand); color:#fff; cursor:pointer; }
+button.danger { background:#c0392b; padding:5px 10px; }
+.form { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:22px; }
+.form h2 { margin-top:0; } .form label { display:block; margin-bottom:10px; font-size:13px; color:var(--muted); }
+.form .row { display:grid; grid-template-columns:1fr 1fr 2fr; gap:12px; }
+select.status-blocked, select.status-suspended { color:#c0392b; }
+@media (max-width: 720px) {
+  body { flex-direction:column; } .sidebar { width:100%; } .sidebar nav { display:flex; flex-wrap:wrap; }
+  main { padding:18px; } .form .row { grid-template-columns:1fr; } table { display:block; overflow-x:auto; }
+}

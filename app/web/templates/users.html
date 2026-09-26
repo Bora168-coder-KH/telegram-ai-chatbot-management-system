@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="get" class="toolbar">
+  <input type="search" name="q" value="{{ q }}" placeholder="Search name or username">
+  <button type="submit">Search</button>
+</form>
+<table>
+  <thead><tr><th>ID</th><th>Name</th><th>Username</th><th>Language</th><th>Last seen</th><th>Status</th></tr></thead>
+  <tbody>
+    {% for u in users %}{% include "_user_row.html" %}{% else %}
+    <tr><td colspan="6" class="muted">No users yet. Send /start to your bot.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

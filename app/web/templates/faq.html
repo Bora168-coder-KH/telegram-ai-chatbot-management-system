@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="form" hx-post="/faq" hx-target="#faq-rows" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+  <h2>Add FAQ</h2>
+  <label>Question <input name="question" required></label>
+  <label>Answer <textarea name="answer" rows="3" required></textarea></label>
+  <div class="row">
+    <label>Category
+      <select name="category">{% for c in categories %}<option>{{ c }}</option>{% endfor %}</select>
+    </label>
+    <label>Language
+      <select name="language"><option value="en">English</option><option value="km">Khmer</option></select>
+    </label>
+    <label>Keywords (comma separated) <input name="keywords" placeholder="price, cost"></label>
+  </div>
+  <button type="submit">Add FAQ</button>
+</form>
+
+<table>
+  <thead><tr><th>Question</th><th>Answer</th><th>Category</th><th>Lang</th><th>Keywords</th><th></th></tr></thead>
+  <tbody id="faq-rows">
+    {% for f in faqs %}{% include "_faq_row.html" %}{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

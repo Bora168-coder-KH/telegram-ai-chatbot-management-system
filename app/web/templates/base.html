@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ active or "Admin" }} · AI Chatbot Admin</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">🤖 Chatbot Admin</div>
+    <nav>
+      {% for label, href in nav %}
+        {% if href %}
+          <a href="{{ href }}" class="{{ 'active' if label == active else '' }}">{{ label }}</a>
+        {% else %}
+          <span class="soon" title="Not built yet - see docs/roadmap.md">{{ label }}</span>
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </aside>
+  <main>
+    <h1>{{ active }}</h1>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
