@@ -1,0 +1,19 @@
+# Optional: run PostgreSQL locally when you are ready to leave SQLite.
+#   docker compose up -d
+# Then set in .env:
+#   DATABASE_URL=postgresql+asyncpg://chatbot:chatbot@localhost:5432/chatbot
+# and install asyncpg (pip install asyncpg).
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: chatbot
+      POSTGRES_PASSWORD: chatbot
+      POSTGRES_DB: chatbot
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
