@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="cards">
+  {% for label, value in [
+    ("Total Users", stats.total_users),
+    ("New Users (24h)", stats.new_users),
+    ("Active Users (7d)", stats.active_users),
+    ("Total Messages", stats.total_messages),
+    ("Incoming", stats.incoming),
+    ("Outgoing", stats.outgoing),
+    ("Conversations", stats.conversations),
+    ("Active Conversations", stats.active_conversations),
+    ("Unanswered Questions", stats.unanswered),
+    ("AI Requests", stats.ai_requests),
+    ("Human Handoffs", stats.handoffs),
+  ] %}
+  <div class="card"><div class="value">{{ value }}</div><div class="label">{{ label }}</div></div>
+  {% endfor %}
+</section>
+
+<h2>KPIs</h2>
+<section class="cards">
+  <div class="card"><div class="value">{{ stats.resolution_rate }}%</div><div class="label">Resolution Rate</div></div>
+  <div class="card"><div class="value">{{ stats.ai_answer_rate }}%</div><div class="label">AI Answer Rate</div></div>
+  <div class="card"><div class="value">{{ stats.fallback_rate }}%</div><div class="label">Fallback Rate</div></div>
+  <div class="card"><div class="value">{{ stats.handoff_rate }}%</div><div class="label">Human Handoff Rate</div></div>
+  <div class="card"><div class="value">{{ stats.satisfaction if stats.satisfaction is not none else "-" }}</div><div class="label">Satisfaction (out of 5)</div></div>
+</section>
+
+<h2>Top unanswered questions</h2>
+{% if unknown %}
+<table>
+  <thead><tr><th>Question</th><th>Times asked</th></tr></thead>
+  <tbody>
+  {% for q in unknown %}<tr><td>{{ q.question }}</td><td>{{ q.frequency }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="muted">Nothing yet. Questions the bot cannot answer will appear here so you can add FAQs or articles.</p>
+{% endif %}
+{% endblock %}

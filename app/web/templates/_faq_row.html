@@ -1,0 +1,9 @@
+<tr id="faq-{{ f.id }}">
+  <td>{{ f.question }}</td>
+  <td>{{ f.answer }}</td>
+  <td>{{ f.category }}</td>
+  <td>{{ f.language }}</td>
+  <td>{{ f.keywords }}</td>
+  <td><button class="danger" hx-delete="/faq/{{ f.id }}" hx-target="#faq-{{ f.id }}" hx-swap="outerHTML"
+              hx-confirm="Delete this FAQ?">Delete</button></td>
+</tr>

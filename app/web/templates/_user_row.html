@@ -1,0 +1,14 @@
+<tr id="user-{{ u.id }}">
+  <td>{{ u.id }}</td>
+  <td>{{ u.full_name }}</td>
+  <td>{{ "@" ~ u.username if u.username else "-" }}</td>
+  <td>{{ u.language }}</td>
+  <td>{{ u.last_interaction_at.strftime("%Y-%m-%d %H:%M") }}</td>
+  <td>
+    <form hx-post="/users/{{ u.id }}/status" hx-target="#user-{{ u.id }}" hx-swap="outerHTML" hx-trigger="change">
+      <select name="status" class="status-{{ u.status|lower }}">
+        {% for s in statuses %}<option value="{{ s }}" {{ "selected" if s == u.status else "" }}>{{ s }}</option>{% endfor %}
+      </select>
+    </form>
+  </td>
+</tr>
