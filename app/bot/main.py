@@ -2,7 +2,7 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
+from aiogram import Dispatcher
 from aiogram.exceptions import TelegramUnauthorizedError
 from aiogram.types import BotCommand
 
@@ -11,6 +11,7 @@ from app.bot.middlewares import DbSessionMiddleware
 from app.config import settings
 from app.db import SessionLocal, init_db
 from app.seed import seed_defaults
+from app.services.telegram import make_bot
 
 
 async def main() -> None:
@@ -22,7 +23,7 @@ async def main() -> None:
     async with SessionLocal() as session:
         await seed_defaults(session)  # sample data for the prototype
 
-    bot = Bot(token=settings.bot_token)
+    bot = make_bot()  # with retry for Telegram API errors
     try:
         me = await bot.get_me()  # Bot Authentication: Telegram verifies the token
     except TelegramUnauthorizedError:
