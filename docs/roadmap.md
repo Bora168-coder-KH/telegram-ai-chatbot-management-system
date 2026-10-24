@@ -10,7 +10,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [ ] Webhook mode (FastAPI endpoint + `set_webhook`) for the final demo
 - [x] Alembic migrations (replace `create_all`)
 - [ ] Switch to PostgreSQL (`docker-compose.yml` is ready)
-- [ ] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
+- [x] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
 - [x] Retry logic for Telegram API errors
 - [ ] Error Log, Activity Log and Audit Log writing (`Log` model)
 - [ ] Data masking for Telegram user data by role

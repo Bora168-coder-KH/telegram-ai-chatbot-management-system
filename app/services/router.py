@@ -111,13 +111,13 @@ async def route_message(session: AsyncSession, user: TelegramUser, text: str) ->
     system_prompt = bot.system_prompt if bot else ""
     if article:
         if ai.ai_enabled():
-            answer = await ai.generate_answer(text, article.content, system_prompt, lang)
+            answer = await ai.generate_answer(text, article.content, system_prompt, lang, bot)
             if answer:
                 return Reply(answer, Source.AI)
         return Reply(article.content, Source.KNOWLEDGE)
 
     # 5. AI without Knowledge Base context
-    answer = await ai.generate_answer(text, "", system_prompt, lang)
+    answer = await ai.generate_answer(text, "", system_prompt, lang, bot)
     if answer:
         return Reply(answer, Source.AI)
 

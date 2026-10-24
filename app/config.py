@@ -12,6 +12,8 @@ class Settings(BaseSettings):
 
     database_url: str = "sqlite+aiosqlite:///./chatbot.db"
     ai_model: str = ""
+    ai_base_url: str = "https://openrouter.ai/api/v1"  # any OpenAI-compatible chat API
+    ai_timeout: float = 20.0  # seconds
     default_language: str = "en"  # "en" or "km"
 
     # First admin account, created on first start if there is no admin yet.
