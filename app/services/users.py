@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
-from app.models import Conversation, Message, SupportStatus, TelegramUser, utcnow
+from app.models import Conversation, Message, TelegramUser, utcnow
 
 
 async def get_or_create_user(
@@ -68,11 +68,3 @@ async def save_message(
     await session.commit()
     return message
 
-
-async def request_human_support(session: AsyncSession, conversation: Conversation) -> None:
-    """Human handoff, step 1: mark the conversation as an open support request.
-
-    TODO (team task): assign an agent, notify agents, let agents reply from the dashboard.
-    """
-    conversation.support_status = SupportStatus.OPEN
-    await session.commit()

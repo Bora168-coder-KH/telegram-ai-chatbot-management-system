@@ -44,7 +44,7 @@ async def dashboard_stats(session: AsyncSession) -> dict:
     answered = await _count(
         session,
         select(func.count(Message.id)).where(
-            Message.response_source.in_([Source.COMMAND, Source.RULE, Source.FAQ, Source.KNOWLEDGE, Source.AI])
+            Message.response_source.in_([Source.COMMAND, Source.RULE, Source.INTENT, Source.FAQ, Source.KNOWLEDGE, Source.AI])
         ),
     )
 

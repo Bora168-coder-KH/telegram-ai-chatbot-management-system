@@ -32,8 +32,8 @@ FAQ_CATEGORIES = ["General", "Account", "Service", "Payment", "Course", "Registr
 
 class Source:
     """Where a response came from (Message.response_source)."""
-    COMMAND, RULE, FAQ, KNOWLEDGE, AI, FALLBACK, AGENT = (
-        "Command", "Rule", "FAQ", "KnowledgeBase", "AI", "Fallback", "Agent",
+    COMMAND, RULE, INTENT, FAQ, KNOWLEDGE, AI, FALLBACK, AGENT = (
+        "Command", "Rule", "Intent", "FAQ", "KnowledgeBase", "AI", "Fallback", "Agent",
     )
 
 

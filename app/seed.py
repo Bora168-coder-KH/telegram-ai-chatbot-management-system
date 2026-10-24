@@ -9,7 +9,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import SessionLocal, init_db
-from app.models import FAQ, Bot, Command, KnowledgeArticle, Role
+from app.models import FAQ, Bot, Command, Intent, KnowledgeArticle, Role, TrainingPhrase
 
 ROLES = {
     "Administrator": ["view", "create", "edit", "delete", "reply", "broadcast", "train", "report"],
@@ -17,6 +17,34 @@ ROLES = {
     "Content Manager": ["view", "create", "edit", "delete", "train"],
     "Support Agent": ["view", "edit", "reply"],
     "Viewer": ["view", "report"],
+}
+
+# name -> (description, response, entities, priority, [(phrase, language)])
+INTENTS = {
+    "contact_request": (
+        "Start the contact form (Name -> Phone -> Email -> Request)",
+        "", [], 10,
+        [("I want to send a request", "en"), ("I need to contact staff", "en"),
+         ("I want to make a request", "en"), ("please contact me", "en"),
+         ("ខ្ញុំចង់ដាក់សំណើ", "km"), ("សូមទាក់ទងខ្ញុំ", "km")],
+    ),
+    "book_appointment": (
+        "User wants an appointment; extracts the date",
+        "Thank you! We noted your appointment request for {date}. Our team will confirm it soon. "
+        "If the date shows '-', please send it as 2026-11-02 or 02/11/2026.",
+        ["date"], 5,
+        [("I want to book an appointment", "en"), ("book a meeting", "en"),
+         ("can I make an appointment", "en"), ("schedule a visit", "en"),
+         ("ខ្ញុំចង់ណាត់ជួប", "km")],
+    ),
+    "check_request_status": (
+        "User asks about the status of a request",
+        "You can see the status of your request with the Human Support button. "
+        "An agent will reply in this chat as soon as possible.",
+        [], 0,
+        [("what is the status of my request", "en"), ("check my request status", "en"),
+         ("any update on my request", "en"), ("តើសំណើរបស់ខ្ញុំយ៉ាងម៉េចហើយ", "km")],
+    ),
 }
 
 
@@ -57,6 +85,12 @@ async def seed_defaults(session: AsyncSession) -> None:
                 answer="យើងបើកពីថ្ងៃច័ន្ទដល់ថ្ងៃសុក្រ ម៉ោង ៨:០០ ដល់ ១៧:០០។",
                 category="General", keywords="ម៉ោងបើក,ម៉ោងធ្វើការ", language="km"),
         ])
+    if await _empty(session, Intent):
+        for name, (description, response, entities, priority, phrases) in INTENTS.items():
+            session.add(Intent(
+                name=name, description=description, response=response, entities=entities, priority=priority,
+                phrases=[TrainingPhrase(phrase=p, language=lang) for p, lang in phrases],
+            ))
     if await _empty(session, KnowledgeArticle):
         session.add(KnowledgeArticle(
             title="Refund policy",

@@ -11,7 +11,9 @@ from app.bot import keyboards as kb
 from app.i18n import button_key, category_label, t
 from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
 from app.models import Command as BotCommand
+from app.services import forms
 from app.services import users as svc
+from app.services.handoff import request_human_support
 from app.services.router import route_message
 
 logger = logging.getLogger(__name__)
@@ -76,8 +78,20 @@ async def _show_faq_categories(session, target: Message, user, conversation):
 
 
 async def _human_support(session, target: Message, user, conversation):
-    await svc.request_human_support(session, conversation)
+    await request_human_support(session, conversation)
     await _send(session, target, user, conversation, t(user.language, "handoff_created"), Source.COMMAND)
+
+
+async def _send_form_reply(session, target: Message, user, conversation, reply: forms.FormReply):
+    markup = kb.confirm_keyboard(user.language) if reply.confirm else None
+    if reply.finished:
+        markup = kb.main_menu(user.language)
+    await _send(session, target, user, conversation, reply.text, Source.COMMAND, markup)
+
+
+async def _start_form(session, target: Message, user, conversation):
+    reply = await forms.start_form(session, conversation, user.language)
+    await _send_form_reply(session, target, user, conversation, reply)
 
 
 # ---- commands ----------------------------------------------------------------
@@ -116,6 +130,18 @@ async def cmd_menu(message: Message, session: AsyncSession):
         return
     await svc.save_message(session, conversation, user, "incoming", message.text)
     await _show_main_menu(session, message, user, conversation)
+
+
+@router.message(Command("cancel"))
+async def cmd_cancel(message: Message, session: AsyncSession):
+    user, conversation, _ = await _load(session, message.from_user)
+    if not await _allowed(session, user, message):
+        return
+    if not message.text:
+        return
+    await svc.save_message(session, conversation, user, "incoming", message.text)
+    reply = await forms.cancel_form(session, conversation, user.language)
+    await _send_form_reply(session, message, user, conversation, reply)
 
 
 @router.message(F.text.startswith("/"))
@@ -166,6 +192,8 @@ async def on_menu_button(message: Message, session: AsyncSession):
     elif key == "btn_feedback":
         await _send(session, message, user, conversation, t(lang, "feedback_prompt"), Source.COMMAND,
                     kb.rating_keyboard())
+    elif key == "btn_form":
+        await _start_form(session, message, user, conversation)
 
 
 # ---- callback queries (Inline Keyboard) ---------------------------------------
@@ -268,6 +296,24 @@ async def on_menu_callback(callback: CallbackQuery, session: AsyncSession):
         await _human_support(session, callback.message, user, conversation)
 
 
+@router.callback_query(F.data.startswith("form:"))
+async def on_form_confirm(callback: CallbackQuery, session: AsyncSession):
+    """Yes / No under the form summary."""
+    if not isinstance(callback.message, Message):
+        await callback.answer()
+        return
+    user, conversation, _ = await _load(session, callback.from_user)
+    await callback.answer()
+    await callback.message.edit_reply_markup(reply_markup=None)
+    if conversation.session_step != "confirm":
+        return  # old button: the form was already sent or cancelled
+    if callback.data == "form:yes":
+        reply = await forms.submit_form(session, conversation, user, user.language)
+    else:
+        reply = await forms.cancel_form(session, conversation, user.language)
+    await _send_form_reply(session, callback.message, user, conversation, reply)
+
+
 # ---- normal messages ----------------------------------------------------------
 @router.message(F.text)
 async def on_text(message: Message, session: AsyncSession):
@@ -278,7 +324,19 @@ async def on_text(message: Message, session: AsyncSession):
     if not message.text:
         return
     await svc.save_message(session, conversation, user, "incoming", message.text)
+    if forms.in_form(conversation):  # the user is answering a form step
+        form_reply = await forms.handle_form_input(session, conversation, user, message.text)
+        await _send_form_reply(session, message, user, conversation, form_reply)
+        return
     reply = await route_message(session, user, message.text)
+    if reply.intent:
+        conversation.intent = reply.intent
+        if reply.entities:
+            conversation.context = {**(conversation.context or {}), "entities": reply.entities}
+        await session.commit()
+    if reply.start_form:
+        await _start_form(session, message, user, conversation)
+        return
     markup = kb.fallback_keyboard(user.language) if reply.fallback else kb.feedback_keyboard
     await _send(session, message, user, conversation, reply.text, reply.source, markup)
 
