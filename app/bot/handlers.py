@@ -8,8 +8,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot import keyboards as kb
-from app.i18n import button_key, t
-from app.models import FAQ, Bot, Feedback, Source, UserStatus
+from app.i18n import button_key, category_label, t
+from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
 from app.models import Command as BotCommand
 from app.services import users as svc
 from app.services.router import route_message
@@ -54,14 +54,25 @@ async def _show_main_menu(session, target: Message, user, conversation, text_key
                 kb.main_menu(user.language))
 
 
-async def _show_faq_list(session, target: Message, user, conversation):
-    result = await session.execute(select(FAQ).where(FAQ.status == "Active").order_by(FAQ.priority.desc()))
-    faqs = [f for f in result.scalars() if f.language == user.language][:10]
-    if not faqs:
+async def _active_faqs(session: AsyncSession, language: str) -> list[FAQ]:
+    result = await session.execute(select(FAQ).where(FAQ.status == "Active").order_by(FAQ.priority.desc(), FAQ.id))
+    return [f for f in result.scalars() if f.language == language]
+
+
+async def _faq_categories(session: AsyncSession, language: str) -> list[str]:
+    """Categories that have at least one active FAQ, in dashboard order (unknown ones last)."""
+    found = {f.category for f in await _active_faqs(session, language)}
+    known = [c for c in FAQ_CATEGORIES if c in found]
+    return known + sorted(found - set(FAQ_CATEGORIES))
+
+
+async def _show_faq_categories(session, target: Message, user, conversation):
+    categories = await _faq_categories(session, user.language)
+    if not categories:
         await _send(session, target, user, conversation, t(user.language, "faq_empty"), Source.COMMAND)
         return
-    await _send(session, target, user, conversation, t(user.language, "faq_title"), Source.COMMAND,
-                kb.faq_keyboard(faqs))
+    await _send(session, target, user, conversation, t(user.language, "faq_choose_category"), Source.COMMAND,
+                kb.faq_category_keyboard(categories, user.language))
 
 
 async def _human_support(session, target: Message, user, conversation):
@@ -142,7 +153,7 @@ async def on_menu_button(message: Message, session: AsyncSession):
     if key == "btn_ask":
         await _send(session, message, user, conversation, t(lang, "ask_prompt"), Source.COMMAND)
     elif key == "btn_faq":
-        await _show_faq_list(session, message, user, conversation)
+        await _show_faq_categories(session, message, user, conversation)
     elif key == "btn_contact":
         bot = (await session.execute(select(Bot))).scalars().first()
         contact = bot.support_contact if bot else "-"
@@ -171,6 +182,39 @@ async def on_language(callback: CallbackQuery, session: AsyncSession):
     await callback.answer()
     await callback.message.edit_reply_markup(reply_markup=None)
     await _show_main_menu(session, callback.message, user, conversation, "welcome")
+
+
+@router.callback_query(F.data.startswith("faqcat:"))
+async def on_faq_category(callback: CallbackQuery, session: AsyncSession):
+    """Category chosen: replace the category list with that category's questions."""
+    if not isinstance(callback.message, Message):
+        await callback.answer()
+        return
+    user, _, _ = await _load(session, callback.from_user)
+    if not callback.data:
+        return
+    category = callback.data.split(":", 1)[1]
+    faqs = [f for f in await _active_faqs(session, user.language) if f.category == category]
+    await callback.answer()
+    if not faqs:
+        await callback.message.edit_text(t(user.language, "faq_empty"))
+        return
+    title = t(user.language, "faq_category_title", category=category_label(user.language, category))
+    await callback.message.edit_text(title,
+                                     reply_markup=kb.faq_keyboard(faqs, user.language))
+
+
+@router.callback_query(F.data == "faqback")
+async def on_faq_back(callback: CallbackQuery, session: AsyncSession):
+    """Back button: show the category list again in the same message."""
+    if not isinstance(callback.message, Message):
+        await callback.answer()
+        return
+    user, _, _ = await _load(session, callback.from_user)
+    categories = await _faq_categories(session, user.language)
+    await callback.answer()
+    await callback.message.edit_text(t(user.language, "faq_choose_category"),
+                                     reply_markup=kb.faq_category_keyboard(categories, user.language))
 
 
 @router.callback_query(F.data.startswith("faq:"))

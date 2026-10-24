@@ -26,6 +26,10 @@ class SupportStatus:
     )
 
 
+# FAQ categories, in the order the dashboard and the bot show them.
+FAQ_CATEGORIES = ["General", "Account", "Service", "Payment", "Course", "Registration", "Technical Support"]
+
+
 class Source:
     """Where a response came from (Message.response_source)."""
     COMMAND, RULE, FAQ, KNOWLEDGE, AI, FALLBACK, AGENT = (

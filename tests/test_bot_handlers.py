@@ -71,7 +71,9 @@ def test_blocked_user_is_stopped():
     assert "restricted" in asyncio.run(scenario())
 
 
-def test_feedback_callback_saves_rating():
+def test_feedback_callback_saves_rating(monkeypatch):
+    monkeypatch.setattr(handlers, "Message", SimpleNamespace)  # fake message passes the isinstance check
+
     async def scenario():
         await init_db()
         async with SessionLocal() as session:
@@ -88,3 +90,33 @@ def test_feedback_callback_saves_rating():
 
     ratings = asyncio.run(scenario())
     assert any(r.rating == 5 for r in ratings)
+
+
+def test_faq_menu_shows_categories_then_questions(monkeypatch):
+    async def scenario():
+        await init_db()
+        async with SessionLocal() as session:
+            await seed_defaults(session)
+            await handlers.cmd_start(fake_message("/start", user_id=555), session)
+
+            # FAQ button -> category buttons only
+            faq_button = fake_message("📚 FAQ", user_id=555)
+            await handlers.on_menu_button(faq_button, session)
+            markup = faq_button.answer.call_args.kwargs["reply_markup"]
+            data = [row[0].callback_data for row in markup.inline_keyboard]
+            assert "faqcat:General" in data and "faqcat:Registration" in data
+            assert not any(d.startswith("faq:") for d in data)
+
+            # choose "Registration" -> only its questions, plus Back
+            message = SimpleNamespace(edit_text=AsyncMock())
+            callback = SimpleNamespace(
+                data="faqcat:Registration", message=message, answer=AsyncMock(),
+                from_user=SimpleNamespace(id=555, username="demo", full_name="Demo User"),
+            )
+            monkeypatch.setattr(handlers, "Message", SimpleNamespace)  # pass the isinstance check
+            await handlers.on_faq_category(callback, session)
+            rows = message.edit_text.call_args.kwargs["reply_markup"].inline_keyboard
+            assert [row[0].text for row in rows[:-1]] == ["How do I register?"]
+            assert rows[-1][0].callback_data == "faqback"
+
+    asyncio.run(scenario())

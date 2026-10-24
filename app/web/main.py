@@ -17,14 +17,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import SessionLocal, init_db
-from app.models import FAQ, TelegramUser, UnknownQuestion, UserStatus
+from app.models import FAQ, FAQ_CATEGORIES, TelegramUser, UnknownQuestion, UserStatus
 from app.seed import seed_defaults
 from app.services.stats import dashboard_stats
 
 BASE_DIR = Path(__file__).parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-
-FAQ_CATEGORIES = ["General", "Account", "Service", "Payment", "Course", "Registration", "Technical Support"]
 
 # Navigation: Dashboard -> Users -> Conversations -> FAQ -> Knowledge Base -> Broadcast -> Reports -> Settings
 NAV = [

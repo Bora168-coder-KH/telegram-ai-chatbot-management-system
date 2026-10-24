@@ -15,7 +15,9 @@ TEXTS = {
         ),
         "menu_title": "Main menu:",
         "ask_prompt": "Please type your question.",
-        "faq_title": "Frequently asked questions:",
+        "faq_choose_category": "Please choose a FAQ category:",
+        "faq_category_title": "{category} - frequently asked questions:",
+        "btn_back": "⬅️ Back",
         "faq_empty": "No FAQ is available yet.",
         "contact": "Support contact: {contact}",
         "handoff_created": "Your request was sent to our support team. An agent will reply here soon.",
@@ -48,7 +50,9 @@ TEXTS = {
         ),
         "menu_title": "ម៉ឺនុយមេ៖",
         "ask_prompt": "សូមវាយសំណួររបស់អ្នក។",
-        "faq_title": "សំណួរដែលសួរញឹកញាប់៖",
+        "faq_choose_category": "សូមជ្រើសរើសប្រភេទ FAQ៖",
+        "faq_category_title": "{category} - សំណួរដែលសួរញឹកញាប់៖",
+        "btn_back": "⬅️ ត្រឡប់ក្រោយ",
         "faq_empty": "មិនទាន់មាន FAQ ទេ។",
         "contact": "ទំនាក់ទំនងជំនួយ៖ {contact}",
         "handoff_created": "សំណើរបស់អ្នកត្រូវបានផ្ញើទៅក្រុមជំនួយ។ ភ្នាក់ងារនឹងឆ្លើយតបឆាប់ៗនេះ។",
@@ -70,6 +74,24 @@ TEXTS = {
         "btn_feedback": "⭐ មតិកែលម្អ",
     },
 }
+
+
+# FAQ category names are stored in English; these are the labels the bot shows.
+CATEGORY_LABELS = {
+    "km": {
+        "General": "ទូទៅ",
+        "Account": "គណនី",
+        "Service": "សេវាកម្ម",
+        "Payment": "ការបង់ប្រាក់",
+        "Course": "វគ្គសិក្សា",
+        "Registration": "ការចុះឈ្មោះ",
+        "Technical Support": "ជំនួយបច្ចេកទេស",
+    },
+}
+
+
+def category_label(lang: str, category: str) -> str:
+    return CATEGORY_LABELS.get(lang, {}).get(category, category)
 
 
 def t(lang: str, key: str, **kwargs) -> str:

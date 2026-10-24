@@ -3,7 +3,7 @@ from aiogram.types import (
     InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup,
 )
 
-from app.i18n import LANGUAGES, t
+from app.i18n import LANGUAGES, category_label, t
 
 
 def main_menu(lang: str) -> ReplyKeyboardMarkup:
@@ -50,7 +50,16 @@ def fallback_keyboard(lang: str) -> InlineKeyboardMarkup:
     ]])
 
 
-def faq_keyboard(faqs: list) -> InlineKeyboardMarkup:
+def faq_category_keyboard(categories: list[str], lang: str) -> InlineKeyboardMarkup:
+    """Step 1 of the FAQ menu: one button per category."""
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=faq.question[:60], callback_data=f"faq:{faq.id}")] for faq in faqs
+        [InlineKeyboardButton(text=category_label(lang, category), callback_data=f"faqcat:{category}")]
+        for category in categories
     ])
+
+
+def faq_keyboard(faqs: list, lang: str) -> InlineKeyboardMarkup:
+    """Step 2 of the FAQ menu: the questions of one category, plus a Back button."""
+    rows = [[InlineKeyboardButton(text=faq.question[:60], callback_data=f"faq:{faq.id}")] for faq in faqs]
+    rows.append([InlineKeyboardButton(text=t(lang, "btn_back"), callback_data="faqback")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
