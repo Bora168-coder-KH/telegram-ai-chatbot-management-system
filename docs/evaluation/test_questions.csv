@@ -1,0 +1,55 @@
+id,lang,question,expected_source,expected_target,kind
+1,en,where is ur office,FAQ,Where is your office located?,paraphrase
+2,en,Are you guys open on saturday?,FAQ,Are you open on weekends?,paraphrase
+3,en,i forgot my password help,FAQ,I forgot my password. What should I do?,paraphrase
+4,en,how can i reset password,FAQ,I forgot my password. What should I do?,paraphrase
+5,en,my account is locked out,FAQ,Why is my account locked?,paraphrase
+6,en,Can I pay using KHQR?,FAQ,Can I pay with KHQR?,near-exact
+7,en,can i pay monthly instead of all at once,FAQ,Can I pay in installments?,paraphrase
+8,en,how do i get an invoice for my payment,FAQ,How do I get a receipt?,paraphrase
+9,en,I want my money back,FAQ,Can I get a refund?,paraphrase
+54,en,what is your refund policy for cancel payment,KnowledgeBase,Refund policy,knowledge base only
+10,en,my payment failed what now,FAQ,My payment failed. What should I do?,paraphrase
+11,en,what courses do you have,FAQ,What courses are available?,paraphrase
+12,en,how many students in one class,FAQ,What is the class size?,paraphrase
+13,en,when does the next course start?,FAQ,When does the next course start?,exact
+14,en,i missed a class yesterday,FAQ,What happens if I miss a class?,paraphrase
+15,en,who is the teacher,FAQ,Who are the teachers?,paraphrase
+16,en,what documents needed to register,FAQ,What documents do I need to register?,paraphrase
+17,en,can i register online,FAQ,Can I register online?,exact
+18,en,what is the last day to register,FAQ,When is the registration deadline?,paraphrase
+19,en,how do I register for my son,FAQ,Can I register on behalf of my child?,paraphrase
+20,en,is there a placement test,FAQ,Do I need a placement test?,paraphrase
+21,en,i did not get the otp code,FAQ,I did not receive the verification code.,paraphrase
+22,en,how to join zoom class,FAQ,How do I join an online class on Zoom?,paraphrase
+23,en,the website is so slow today,FAQ,The website is very slow.,paraphrase
+24,en,i found a bug in the app,FAQ,How do I report a bug?,paraphrase
+25,en,do you give certificate at the end,FAQ,Do you provide certificates after completion?,paraphrase
+26,en,How do I book an appointment?,FAQ,How do I book an appointment?,exact (FAQ and intent overlap)
+27,en,I want to book an appointment on 2026-11-02,Intent,book_appointment,intent with date entity
+28,en,can I make an appointment for 05/11/2026,Intent,book_appointment,intent with date entity
+29,en,I want to send a request,Intent,contact_request,starts the form
+30,en,please contact me,Intent,contact_request,starts the form
+31,en,any update on my request?,Intent,check_request_status,paraphrase
+32,en,hello,Rule,-,greeting
+33,en,thanks a lot,Rule,-,thanks
+34,en,what are your opening hours,FAQ,What are your opening hours?,exact (seed data)
+35,en,what is the weather tomorrow,Fallback,-,out of scope
+36,en,write me a python script,Fallback,-,out of scope
+37,en,wher is offise,FAQ,Where is your office located?,typo
+38,en,do u hav parking for motorbike,FAQ,Is there parking available at your office?,typo
+39,km,ការិយាល័យនៅឯណា,FAQ,ការិយាល័យរបស់អ្នកស្ថិតនៅទីណា?,paraphrase
+40,km,តើបើកថ្ងៃសៅរ៍ទេ,FAQ,តើអ្នកបើកនៅចុងសប្តាហ៍ដែរឬទេ?,paraphrase
+41,km,ខ្ញុំភ្លេចពាក្យសម្ងាត់,FAQ,ខ្ញុំភ្លេចពាក្យសម្ងាត់។ តើត្រូវធ្វើដូចម្តេច?,paraphrase
+42,km,គណនីខ្ញុំត្រូវបានចាក់សោ,FAQ,ហេតុអ្វីបានជាគណនីរបស់ខ្ញុំត្រូវបានចាក់សោ?,paraphrase
+43,km,អាចបង់រំលស់បានទេ,FAQ,តើខ្ញុំអាចបង់ជាដំណាក់កាលបានទេ?,paraphrase
+44,km,ខ្ញុំចង់បានប្រាក់សងវិញ,FAQ,តើខ្ញុំអាចទទួលបានប្រាក់សងវិញបានទេ?,paraphrase
+45,km,មានវគ្គសិក្សាអ្វីខ្លះ,FAQ,តើមានវគ្គសិក្សាអ្វីខ្លះ?,paraphrase
+46,km,ថ្លៃចុះឈ្មោះប៉ុន្មាន,FAQ,តើមានថ្លៃចុះឈ្មោះដែរឬទេ?,paraphrase
+47,km,ខ្ញុំមិនបានទទួល otp ទេ,FAQ,ខ្ញុំមិនបានទទួលលេខកូដផ្ទៀងផ្ទាត់ទេ។,mixed Khmer/English
+48,km,គេហទំព័រយឺតណាស់,FAQ,គេហទំព័រដំណើរការយឺតណាស់។,paraphrase
+49,km,ម៉ោងបើកទ្វារម៉ោងប៉ុន្មាន,FAQ,ម៉ោងបើកទ្វាររបស់អ្នកគឺម៉ោងប៉ុន្មាន?,paraphrase (seed data)
+50,km,ខ្ញុំចង់ណាត់ជួបថ្ងៃ 02/11/2026,Intent,book_appointment,intent with date entity
+51,km,សួស្តី,Rule,-,greeting
+52,km,អរគុណច្រើន,Rule,-,thanks
+53,km,តើថ្ងៃស្អែកភ្លៀងទេ,Fallback,-,out of scope
