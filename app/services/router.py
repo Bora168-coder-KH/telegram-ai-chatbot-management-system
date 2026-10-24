@@ -18,6 +18,7 @@ from app.services.forms import FORM_INTENT
 from app.services.intents import detect_intent
 from app.services.rules import match_rule
 from app.services.text import keyword_list, normalize  # noqa: F401  (normalize is used by tests)
+from app.services.validators import scrub_contacts
 
 FAQ_MIN_SCORE = 0.6
 
@@ -70,8 +71,8 @@ async def find_article(session: AsyncSession, text: str, language: str) -> Knowl
 
 
 async def save_unknown_question(session: AsyncSession, text: str) -> None:
-    """Unknown Question Detection: remember what the bot could not answer."""
-    norm = normalize(text)
+    """Unknown Question Detection: remember what the bot could not answer (without contact details)."""
+    norm = normalize(scrub_contacts(text))
     if not norm:
         return
     result = await session.execute(select(UnknownQuestion).where(UnknownQuestion.question == norm))

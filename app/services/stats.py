@@ -30,6 +30,7 @@ from app.models import (
     Conversation, Feedback, Message, Source, TelegramUser, UnknownQuestion, utcnow,
 )
 from app.services.text import normalize
+from app.services.validators import scrub_contacts
 
 ANSWER_SOURCES = [Source.COMMAND, Source.RULE, Source.INTENT, Source.FAQ, Source.KNOWLEDGE, Source.AI, Source.AGENT]
 NEGATIVE_RATING = 2  # ratings 1-2 count as unhappy
@@ -187,7 +188,7 @@ async def chart_data(session: AsyncSession, days: int = 14) -> dict:
             sources[source] += 1
         if (direction == "incoming" and kind == "text" and content and not content.startswith("/")
                 and button_key(content) is None):
-            questions[normalize(content)] += 1
+            questions[normalize(scrub_contacts(content))] += 1
 
     return {
         "labels": [d.strftime("%d %b") for d in labels],

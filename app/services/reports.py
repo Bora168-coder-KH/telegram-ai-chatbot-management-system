@@ -15,6 +15,7 @@ from app.i18n import button_key
 from app.models import Conversation, Feedback, Message, TelegramUser, UnknownQuestion
 from app.services.stats import resolution
 from app.services.text import normalize
+from app.services.validators import scrub_contacts
 
 FONTS = Path(__file__).resolve().parent.parent / "web" / "static" / "fonts"
 
@@ -52,7 +53,7 @@ async def build_report(session: AsyncSession, start: date, end: date) -> dict:
             sources[source] += 1
         if direction == "incoming" and kind == "text" and content and not content.startswith("/") \
                 and button_key(content) is None:
-            questions[normalize(content)] += 1
+            questions[normalize(scrub_contacts(content))] += 1
 
     new_users = (await session.execute(select(TelegramUser.first_interaction_at).where(
         TelegramUser.first_interaction_at >= since, TelegramUser.first_interaction_at < until))).scalars().all()

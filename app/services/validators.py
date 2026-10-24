@@ -93,3 +93,9 @@ def extract_entities(text: str, kinds: list[str] | None = None) -> dict[str, str
         if m := NUMBER_RE.search(rest):
             found["number"] = m.group()
     return found
+
+
+def scrub_contacts(text: str) -> str:
+    """Replace emails and phone numbers with [email] / [phone] (for question statistics)."""
+    text = EMAIL_RE.sub("[email]", text)
+    return PHONE_RE.sub("[phone]", _latin(text))

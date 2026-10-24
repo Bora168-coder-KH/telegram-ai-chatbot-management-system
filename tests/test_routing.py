@@ -72,3 +72,13 @@ def test_fallback_saves_unknown_question():
     reply, rows = run(scenario())
     assert reply.fallback and reply.source == Source.FALLBACK
     assert any(r.question == "blorp quantum zebra" for r in rows)
+
+
+def test_unknown_question_does_not_store_contact_details():
+    async def scenario():
+        await _reply("zork call me 012 345 678 or dara@example.com")
+        async with SessionLocal() as session:
+            return [r.question for r in (await session.execute(select(UnknownQuestion))).scalars()]
+    questions = run(scenario())
+    assert "zork call me phone or email" in questions
+    assert not any("012" in q or "dara" in q for q in questions)
