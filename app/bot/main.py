@@ -7,7 +7,7 @@ from aiogram.exceptions import TelegramUnauthorizedError
 from aiogram.types import BotCommand
 
 from app.bot.handlers import router
-from app.bot.middlewares import DbSessionMiddleware
+from app.bot.middlewares import DbSessionMiddleware, ProtectionMiddleware
 from app.config import settings
 from app.db import SessionLocal, init_db
 from app.seed import seed_defaults
@@ -39,6 +39,7 @@ async def main() -> None:
 
     dispatcher = Dispatcher()
     dispatcher.update.outer_middleware(DbSessionMiddleware())
+    dispatcher.message.middleware(ProtectionMiddleware())  # rate limit, spam, moderation
     dispatcher.include_router(router)
     scheduler = build_scheduler()  # scheduled broadcasts and reminders
     scheduler.start()
