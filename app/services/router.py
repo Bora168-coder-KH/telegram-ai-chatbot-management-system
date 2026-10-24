@@ -34,11 +34,16 @@ class Reply:
 
 
 def faq_score(text: str, faq: FAQ) -> float:
-    """0..1 score: similar question OR a keyword found in the message."""
+    """0..1 score: similar question OR a keyword found in the message.
+
+    A longer keyword is more specific, so it scores a little higher:
+    "register for my son" beats "how do i register", "saturday" beats "open".
+    """
     norm = normalize(text)
     score = SequenceMatcher(None, norm, normalize(faq.question)).ratio()
-    if any(k in norm for k in keyword_list(faq.keywords)):
-        score = max(score, 0.9)
+    hits = [k for k in keyword_list(faq.keywords) if k in norm]
+    if hits:
+        score = max(score, 0.9 + min(max(len(k) for k in hits), 40) * 0.001)
     return score
 
 

@@ -173,7 +173,7 @@ MOCK_FAQS_EN: dict[str, list[tuple[str, str, str]]] = {
          "course material,textbook,books included"),
         ("What happens if I miss a class?",
          "Recordings and notes are shared in the class Telegram group. Attendance below 80% means no certificate.",
-         "miss a class,missed class,absent"),
+         "miss a class,missed a class,missed class,absent"),
     ],
     "Registration": [
         ("What documents do I need to register?",
