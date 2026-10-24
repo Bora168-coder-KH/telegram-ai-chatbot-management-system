@@ -44,10 +44,10 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 
 ## Ponloeng Bora - analysis, KPIs, presentation
 - [x] KPI calculations on the dashboard (resolution, AI answer, fallback, handoff, satisfaction)
-- [ ] Review that every requirement in the assignment is covered (use the coverage map in Notion)
+- [x] Review that every requirement in the assignment is covered: `docs/requirements-coverage.md` (the Notion coverage map was not found; compare with the official brief)
 - [x] Decide the exact meaning of "Resolved" for the Resolution Rate and adjust `services/stats.py`
-- [ ] Collect real Khmer and English test questions for the FAQ and Knowledge Base
-- [ ] Final presentation and demo storyline
+- [x] Collect Khmer and English test questions: `docs/evaluation/test_questions.csv` (team-written; add real user questions after the demo)
+- [x] Final presentation and demo storyline: `docs/demo-script.md`
 
 ## Suggested order
 1. Everyone: run the starter, send `/start`, open the dashboard, read `router.py`.
