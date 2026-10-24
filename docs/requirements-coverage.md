@@ -85,13 +85,14 @@ The items still open before the final demo are:
 
 ## Answer quality (labelled test questions)
 
-`python -m scripts.evaluate_questions` runs the 54 labelled questions in `docs/evaluation/test_questions.csv`
-(39 English, 15 Khmer) through the routing on a throwaway database with all mock FAQs, without AI.
+`python -m scripts.evaluate_questions` runs the 57 labelled questions in `docs/evaluation/test_questions.csv`
+(42 English, 15 Khmer) through the routing on a throwaway database with all mock FAQs, without AI.
 
 | Run | Passed | English | Khmer |
 |---|---|---|---|
-| First run | 47 / 53 (89%) | 33 / 38 | 14 / 15 |
-| After fixing 2 wrong labels, the keyword ranking and one keyword | 52 / 54 (96%) | 37 / 39 | 15 / 15 |
+| First run (53 questions) | 47 / 53 (89%) | 33 / 38 | 14 / 15 |
+| After fixing 2 wrong labels, the keyword ranking and one keyword (54 questions) | 52 / 54 (96%) | 37 / 39 | 15 / 15 |
+| With 3 more out-of-scope questions found while making screenshots (57 questions) | 53 / 57 (93%) | 38 / 42 | 15 / 15 |
 
 Findings:
 
@@ -103,6 +104,22 @@ Findings:
   how-to wording out of the intent's training phrases so that how-to questions reach the FAQ.
 - **Open:** the Knowledge Base article "Refund policy" is never reached, because the FAQ "Can I get a refund?"
   answers every refund question first. Merge them, or give the article keywords the FAQ does not have.
+
+- **Open, needs a team decision: wrong answers on out-of-scope questions.** "do you have a dormitory" gets the
+  answer to "Do you have a website?" (similar wording), and "my certificate has a wrong birth date" gets the
+  certificate FAQ (the keyword "certificate" matches). A wrong answer is worse than the fallback, which offers
+  Rephrase and Human Support. Changing the FAQ similarity threshold (`FAQ_MIN_SCORE` in `services/router.py`)
+  only trades one error for another:
+
+  | FAQ_MIN_SCORE | Passed (57) | What changes |
+  |---|---|---|
+  | 0.60 (current) | 53 | typo "wher is offise" answered; "dormitory" answered wrongly |
+  | 0.65 / 0.70 | 52 | typo lost, "dormitory" still wrong |
+  | 0.75 | 53 | typo lost, "dormitory" falls back correctly |
+  | 0.80 | 50 | paraphrases like "where is ur office" lost |
+
+  Recommended next step: keep 0.6, and make single-word keywords such as "certificate" more specific
+  ("get a certificate", "certificate after"), or let the AI step check FAQ answers when the score is below 0.75.
 
 These questions were **written by the team**, not collected from real users. They are a starting set; the real
 questions from the demo users (Dashboard → Top unanswered questions, Reports → Top questions) should be added to the

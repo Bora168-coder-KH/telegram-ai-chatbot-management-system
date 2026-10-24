@@ -31,7 +31,7 @@ uvicorn app.web.main:app               # the dashboard: http://127.0.0.1:8000
 | 2:30 | Live demo: the student | Phal Raksa | (steps 1-6 below) |
 | 7:00 | Live demo: the staff | Lay Sopanha | (steps 7-12 below) |
 | 11:00 | Architecture and security | Tan Mengkoung | `docs/architecture.md`: routing order, layers, migrations, webhook mode, roles, masking, logs, backup |
-| 12:30 | Results and KPIs | Ponloeng Bora | KPI definitions, answer quality 52/54 on the labelled questions, what was fixed because of it (`docs/requirements-coverage.md`) |
+| 12:30 | Results and KPIs | Ponloeng Bora | KPI definitions, answer quality 53/57 on the labelled questions, what was fixed because of it (`docs/requirements-coverage.md`) |
 | 14:00 | Limits and next steps | Ponloeng Bora | Prototype limits (in-memory rate limit, AI needs a paid/free key, PostgreSQL run pending), next steps |
 
 ## Demo steps
@@ -54,7 +54,7 @@ uvicorn app.web.main:app               # the dashboard: http://127.0.0.1:8000
    `012 345 678`, email `dara@example.com`, request `I need my certificate`, then ✅ Yes.
    *Shows:* the multi-step form, input validation, the confirmation step.
    *Expect:* error messages for the bad inputs, a summary, then "Thank you! Your request was sent…".
-6. **Unknown question.** Type `my certificate has a wrong birth date`.
+6. **Unknown question.** Type `is there a bus to campus` (checked: it has no FAQ, so it falls back).
    *Shows:* fallback with Rephrase / Main Menu / Human Support buttons; the question is saved as unanswered.
 
 ### The staff (dashboard)

@@ -53,3 +53,6 @@ id,lang,question,expected_source,expected_target,kind
 51,km,សួស្តី,Rule,-,greeting
 52,km,អរគុណច្រើន,Rule,-,thanks
 53,km,តើថ្ងៃស្អែកភ្លៀងទេ,Fallback,-,out of scope
+55,en,do you have a dormitory,Fallback,-,out of scope (similar wording to a FAQ)
+56,en,is there a bus to campus,Fallback,-,out of scope
+57,en,my certificate has a wrong birth date,Fallback,-,out of scope (contains a FAQ keyword)

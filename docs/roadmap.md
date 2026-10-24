@@ -40,7 +40,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Settings page (bot info, AI settings, System Prompt, maintenance mode, roles)
 - [x] Charts on the dashboard (Chart.js): user growth, incoming vs outgoing, popular questions
 - [x] Responsive check on tablet and mobile
-- [ ] Screenshots, final documentation, live demo script
+- [x] Screenshots, final documentation, live demo script
 
 ## Ponloeng Bora - analysis, KPIs, presentation
 - [x] KPI calculations on the dashboard (resolution, AI answer, fallback, handoff, satisfaction)
