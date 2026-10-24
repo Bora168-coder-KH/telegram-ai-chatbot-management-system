@@ -111,6 +111,9 @@ class TelegramUser(Base):
     first_interaction_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     last_interaction_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     status: Mapped[str] = mapped_column(String(20), default=UserStatus.ACTIVE)
+    # Filled in by the contact form conversation (services/forms.py)
+    phone: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    email: Mapped[str | None] = mapped_column(String(200), nullable=True)
 
 
 class Conversation(Base):
@@ -123,6 +126,7 @@ class Conversation(Base):
     intent: Mapped[str | None] = mapped_column(String(100), nullable=True)
     assigned_agent_id: Mapped[int | None] = mapped_column(ForeignKey("agents.id"), nullable=True)
     support_status: Mapped[str | None] = mapped_column(String(20), nullable=True)  # SupportStatus
+    handoff_requested_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     resolution_status: Mapped[str] = mapped_column(String(20), default="unresolved")
     # Conversation session: remembers where the user is in a multi-step form.
     session_step: Mapped[str | None] = mapped_column(String(50), nullable=True)
@@ -138,6 +142,7 @@ class Message(Base):
     message_type: Mapped[str] = mapped_column(String(20), default="text")
     content: Mapped[str] = mapped_column(Text, default="")
     response_source: Mapped[str | None] = mapped_column(String(20), nullable=True)  # Source
+    agent_id: Mapped[int | None] = mapped_column(ForeignKey("agents.id"), nullable=True)  # agent replies
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
@@ -162,6 +167,8 @@ class Intent(Base):
     response: Mapped[str] = mapped_column(Text, default="")
     priority: Mapped[int] = mapped_column(Integer, default=0)
     status: Mapped[str] = mapped_column(String(20), default="Active")
+    # Entities to pull out of the message when this intent matches, e.g. ["phone", "date"]
+    entities: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
 
     phrases: Mapped[list["TrainingPhrase"]] = relationship(back_populates="intent")
 
@@ -217,7 +224,9 @@ class Broadcast(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     bot_id: Mapped[int] = mapped_column(ForeignKey("bots.id"), default=1)
     message: Mapped[str] = mapped_column(Text)
-    audience: Mapped[str] = mapped_column(String(20), default="all")  # all / active / selected
+    audience: Mapped[str] = mapped_column(String(20), default="all")  # all / active / en / km / selected
+    target_user_ids: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")  # for "selected"
+    status: Mapped[str] = mapped_column(String(20), default="draft", server_default="draft")  # draft/scheduled/sent
     scheduled_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     sent_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     delivery_result: Mapped[dict] = mapped_column(JSON, default=dict)

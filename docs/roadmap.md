@@ -8,7 +8,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Bot authentication (token check on start)
 - [x] Long Polling
 - [ ] Webhook mode (FastAPI endpoint + `set_webhook`) for the final demo
-- [ ] Alembic migrations (replace `create_all`)
+- [x] Alembic migrations (replace `create_all`)
 - [ ] Switch to PostgreSQL (`docker-compose.yml` is ready)
 - [ ] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
 - [ ] Retry logic for Telegram API errors
