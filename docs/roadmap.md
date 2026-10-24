@@ -45,7 +45,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 ## Ponloeng Bora - analysis, KPIs, presentation
 - [x] KPI calculations on the dashboard (resolution, AI answer, fallback, handoff, satisfaction)
 - [ ] Review that every requirement in the assignment is covered (use the coverage map in Notion)
-- [ ] Decide the exact meaning of "Resolved" for the Resolution Rate and adjust `services/stats.py`
+- [x] Decide the exact meaning of "Resolved" for the Resolution Rate and adjust `services/stats.py`
 - [ ] Collect real Khmer and English test questions for the FAQ and Knowledge Base
 - [ ] Final presentation and demo storyline
 
