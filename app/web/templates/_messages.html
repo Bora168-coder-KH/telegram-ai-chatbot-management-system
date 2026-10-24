@@ -1,0 +1,6 @@
+{% for m in messages %}
+<div class="bubble {{ m.direction }} {{ 'agent' if m.response_source == 'Agent' else '' }}" data-id="{{ m.id }}">
+  <div class="text">{% if m.message_type != "text" %}<em>[{{ m.message_type }}]</em> {% endif %}{{ m.content | pii_text(show_pii) }}</div>
+  <div class="meta">{{ m.created_at | localtime("%d %b %H:%M") }}{% if m.response_source %} · {{ m.response_source }}{% endif %}</div>
+</div>
+{% endfor %}

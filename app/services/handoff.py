@@ -48,6 +48,7 @@ async def pick_agent(session: AsyncSession) -> Agent | None:
     """The available agent with the fewest active requests."""
     agents = (await session.execute(
         select(Agent).join(Admin).where(Agent.availability == "available", Admin.status == "Active")
+        .order_by(Agent.id)
     )).scalars().all()
     best, best_load = None, None
     for agent in agents:
@@ -63,6 +64,7 @@ async def request_human_support(
     """Open a support request (it enters the agent queue), and auto-assign it if an agent is free."""
     if conversation.support_status not in ACTIVE:
         conversation.support_status = S.OPEN
+        conversation.status = "active"
         conversation.assigned_agent_id = None
         conversation.handoff_requested_at = utcnow()
         conversation.resolution_status = "unresolved"

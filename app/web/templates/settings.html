@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="tabs">
+  <a href="#bot">Bot</a><a href="#ai">AI</a>{% if is_administrator %}<a href="#roles">Roles</a><a href="#admins">Accounts</a>{% endif %}<a href="#password">My password</a>
+</nav>
+
+<form class="form" id="bot" method="post" action="/settings/bot">
+  <input type="hidden" name="csrf_token" value="{{ csrf }}">
+  <h2>Bot information</h2>
+  <div class="row">
+    <label>Bot name <input name="name" value="{{ bot.name }}" required></label>
+    <label>Username <input name="username" value="{{ bot.username }}" placeholder="my_bot"></label>
+    <label>Default language
+      <select name="default_language">
+        <option value="en" {{ "selected" if bot.default_language == "en" else "" }}>English</option>
+        <option value="km" {{ "selected" if bot.default_language == "km" else "" }}>Khmer</option>
+      </select></label>
+  </div>
+  <label>Welcome message <textarea name="welcome_message" rows="2">{{ bot.welcome_message }}</textarea></label>
+  <label>Fallback message (empty = the built-in bilingual text) <textarea name="fallback_message" rows="2">{{ bot.fallback_message }}</textarea></label>
+  <label>Support contact <input name="support_contact" value="{{ bot.support_contact }}"></label>
+  <label class="check"><input type="checkbox" name="maintenance_mode" {{ "checked" if bot.maintenance_mode else "" }}>
+    Maintenance mode (the bot only replies "under maintenance")</label>
+  <button type="submit">Save bot settings</button>
+</form>
+
+<form class="form" id="ai" method="post" action="/settings/ai">
+  <input type="hidden" name="csrf_token" value="{{ csrf }}">
+  <h2>AI settings</h2>
+  <p class="muted small">AI provider: {{ "connected (AI_API_KEY and AI_MODEL are set in .env)" if ai_ready else "not configured - set AI_API_KEY and AI_MODEL in .env" }}.
+    The key itself is never stored in the database.</p>
+  <div class="row">
+    <label>Model (empty = AI_MODEL from .env) <input name="ai_model" value="{{ bot.ai_model }}"></label>
+    <label>Temperature <input type="number" name="ai_temperature" step="0.1" min="0" max="2" value="{{ bot.ai_temperature }}"></label>
+    <label>Max length (tokens) <input type="number" name="ai_max_length" min="50" max="4000" value="{{ bot.ai_max_length }}"></label>
+  </div>
+  <label class="narrow">Response style
+    <select name="response_style">{% for key, text in styles.items() %}<option value="{{ key }}" {{ "selected" if key == bot.response_style else "" }}>{{ key }} - {{ text }}</option>{% endfor %}</select></label>
+  <label>System Prompt (role, tone, allowed topics, safety rules)
+    <textarea name="system_prompt" rows="6">{{ bot.system_prompt }}</textarea></label>
+  {% if can("train") %}<button type="submit">Save AI settings</button>{% else %}<p class="muted small">Your role cannot change AI settings.</p>{% endif %}
+</form>
+
+{% if is_administrator %}
+<section class="form" id="roles">
+  <h2>Roles and permissions</h2>
+  <p class="muted small">Roles with <code>reply</code> see full user data; other roles see it masked.</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Role</th>{% for p in permissions %}<th>{{ p }}</th>{% endfor %}<th></th></tr></thead>
+    <tbody>
+    {% for role in roles %}
+    <tr>
+      <td><form method="post" action="/settings/roles/{{ role.id }}" id="role-{{ role.id }}"><input type="hidden" name="csrf_token" value="{{ csrf }}"></form>{{ role.name }}</td>
+      {% for p in permissions %}
+      <td><input type="checkbox" name="permissions" value="{{ p }}" form="role-{{ role.id }}" aria-label="{{ role.name }} {{ p }}"
+                 {{ "checked" if p in role.permissions else "" }} {{ "disabled" if role.name == "Administrator" else "" }}></td>
+      {% endfor %}
+      <td>{% if role.name != "Administrator" %}<button type="submit" form="role-{{ role.id }}" class="small">Save</button>{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="form" id="admins">
+  <h2>Admin accounts and agents</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Agent</th><th>Availability</th><th>Last login</th><th></th></tr></thead>
+    <tbody>
+    {% for a in admins %}
+    {% set agent = agents.get(a.id) %}
+    <tr>
+      <td><form method="post" action="/settings/admins/{{ a.id }}" id="admin-{{ a.id }}"><input type="hidden" name="csrf_token" value="{{ csrf }}"></form>{{ a.name }}</td><td>{{ a.email }}</td>
+      <td><select name="role_id" form="admin-{{ a.id }}" aria-label="Role">{% for r in roles %}<option value="{{ r.id }}" {{ "selected" if r.id == a.role_id else "" }}>{{ r.name }}</option>{% endfor %}</select></td>
+      <td><select name="status" form="admin-{{ a.id }}" aria-label="Status">{% for s in ("Active", "Disabled") %}<option {{ "selected" if s == a.status else "" }}>{{ s }}</option>{% endfor %}</select></td>
+      <td><input type="checkbox" name="is_agent" form="admin-{{ a.id }}" aria-label="Is agent" {{ "checked" if agent and agent.availability != "off" else "" }}></td>
+      <td><select name="availability" form="admin-{{ a.id }}" aria-label="Availability">{% for s in ("available", "away") %}<option {{ "selected" if agent and agent.availability == s else "" }}>{{ s }}</option>{% endfor %}</select></td>
+      <td>{{ a.last_login_at | localtime }}</td>
+      <td><button type="submit" form="admin-{{ a.id }}" class="small">Save</button></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <form method="post" action="/settings/admins" class="sub-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf }}">
+    <h3>New account</h3>
+    <div class="row">
+      <label>Name <input name="name" required></label>
+      <label>Email <input type="email" name="email" required></label>
+      <label>Password (8+ characters) <input type="password" name="password" minlength="8" required autocomplete="new-password"></label>
+    </div>
+    <div class="row">
+      <label>Role <select name="role_id">{% for r in roles %}<option value="{{ r.id }}" {{ "selected" if r.name == "Support Agent" else "" }}>{{ r.name }}</option>{% endfor %}</select></label>
+      <label class="check"><input type="checkbox" name="is_agent" checked> Can answer support requests (agent)</label>
+      <span></span>
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+</section>
+{% endif %}
+
+<form class="form" id="password" method="post" action="/settings/password">
+  <input type="hidden" name="csrf_token" value="{{ csrf }}">
+  <h2>My password</h2>
+  <div class="row">
+    <label>Current password <input type="password" name="current" required autocomplete="current-password"></label>
+    <label>New password <input type="password" name="new" minlength="8" required autocomplete="new-password"></label>
+    <span></span>
+  </div>
+  <button type="submit">Change password</button>
+</form>
+{% endblock %}

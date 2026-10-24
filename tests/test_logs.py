@@ -28,7 +28,7 @@ def test_new_user_writes_activity_log():
                                       from_user=SimpleNamespace(id=7001, username="logme", full_name="Log Me"))
             await handlers.cmd_start(message, session)
     asyncio.run(scenario())
-    assert any(log.action == "New Telegram user" and log.details == "@logme" for log in _logs(logs.LogType.ACTIVITY))
+    assert any(log.action == "New Telegram user" and log.record_id for log in _logs(logs.LogType.ACTIVITY))
 
 
 def test_audit_and_error_logs():

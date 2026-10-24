@@ -29,8 +29,8 @@ async def _load(session: AsyncSession, tg_user):
     )
     conversation = await svc.get_open_conversation(session, user)
     if created:
-        await logs.activity(session, "New Telegram user", record_id=user.id,
-                            details=f"@{user.username}" if user.username else "")
+        # no name or username here: logs are visible to roles that see masked data
+        await logs.activity(session, "New Telegram user", record_id=user.id)
     return user, conversation, created
 
 

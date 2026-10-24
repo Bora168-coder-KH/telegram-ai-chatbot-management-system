@@ -12,8 +12,8 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [ ] Switch to PostgreSQL (`docker-compose.yml` is ready)
 - [x] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
 - [x] Retry logic for Telegram API errors
-- [ ] Error Log, Activity Log and Audit Log writing (`Log` model)
-- [ ] Data masking for Telegram user data by role
+- [x] Error Log, Activity Log and Audit Log writing (`Log` model)
+- [x] Data masking for Telegram user data by role
 - [ ] Backup and recovery script (prototype)
 
 ## Phal Raksa - features, requirements, business logic, testing
@@ -24,22 +24,22 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Intent detection with training phrases and entity extraction
 - [x] Form conversation (Name -> Phone -> Email -> Request -> Confirmation) using `Conversation.session_step` and `context`
 - [x] Input validation (phone, email, date, number) and invalid input handling
-- [ ] Human handoff: assign agent, agent queue, status changes (Open, Assigned, In Progress, Resolved, Closed)
+- [x] Human handoff: assign agent, agent queue, status changes (Open, Assigned, In Progress, Resolved, Closed)
 - [x] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
 - [ ] Rate limit, spam detection, content moderation (prototypes)
-- [ ] Admin login, session, auto logout, role and permission checks
+- [x] Admin login, session, auto logout, role and permission checks
 - [ ] More tests: intents, forms, handoff, permissions, end-to-end
 
 ## Lay Sopanha - UI/UX, documentation, demo
 - [x] Bot main menu (Reply Keyboard) and inline keyboards
 - [x] Dashboard, Users and FAQ pages (starter)
-- [ ] Conversations page: history timeline, agent reply box
-- [ ] Knowledge Base, Intents and Commands pages
-- [ ] Broadcast page (audience, preview, schedule, history)
-- [ ] Reports page with export to PDF and Excel
-- [ ] Settings page (bot info, AI settings, System Prompt, maintenance mode, roles)
-- [ ] Charts on the dashboard (Chart.js): user growth, incoming vs outgoing, popular questions
-- [ ] Responsive check on tablet and mobile
+- [x] Conversations page: history timeline, agent reply box
+- [x] Knowledge Base, Intents and Commands pages
+- [x] Broadcast page (audience, preview, schedule, history)
+- [x] Reports page with export to PDF and Excel
+- [x] Settings page (bot info, AI settings, System Prompt, maintenance mode, roles)
+- [x] Charts on the dashboard (Chart.js): user growth, incoming vs outgoing, popular questions
+- [x] Responsive check on tablet and mobile
 - [ ] Screenshots, final documentation, live demo script
 
 ## Ponloeng Bora - analysis, KPIs, presentation

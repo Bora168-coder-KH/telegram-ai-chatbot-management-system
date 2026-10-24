@@ -1,0 +1,9 @@
+<div class="test-result">
+  {% if match %}
+    <p>Intent: <strong>{{ match.intent.name }}</strong> (score {{ "%.2f" | format(match.score) }})</p>
+    {% if match.intent.response %}<p>Response: {{ match.response() }}</p>{% endif %}
+  {% else %}
+    <p>No intent matched. The bot would try FAQ, Knowledge Base, AI, then the fallback.</p>
+  {% endif %}
+  <p class="muted small">Entities found in the text: {% for k, v in all_entities.items() %}{{ k }} = {{ v }}{{ ", " if not loop.last }}{% else %}none{% endfor %}</p>
+</div>

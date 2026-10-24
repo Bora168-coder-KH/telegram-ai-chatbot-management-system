@@ -1,0 +1,21 @@
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Message</th><th>Audience</th><th>Status</th><th>Scheduled</th><th>Sent</th><th>Delivery</th><th></th></tr></thead>
+  <tbody>
+  {% for b in history %}
+  <tr>
+    <td>{{ b.id }}</td>
+    <td class="clip">{{ b.message }}</td>
+    <td>{{ b.audience }}{% if b.audience == "selected" %} ({{ b.target_user_ids | length }}){% endif %}</td>
+    <td><span class="badge broadcast-{{ b.status }}">{{ b.status }}</span></td>
+    <td>{{ b.scheduled_at | localtime }}</td>
+    <td>{{ b.sent_at | localtime }}</td>
+    <td>{% if b.delivery_result %}{{ b.delivery_result.sent }} / {{ b.delivery_result.total }}{% if b.delivery_result.failed %} <span class="danger-text">({{ b.delivery_result.failed }} failed)</span>{% endif %}{% else %}-{% endif %}</td>
+    <td>{% if b.status == "scheduled" %}<button class="small secondary" hx-post="/broadcast/{{ b.id }}/cancel" hx-target="#history" hx-confirm="Cancel this scheduled broadcast?">Cancel</button>{% endif %}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="muted">No broadcasts yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>

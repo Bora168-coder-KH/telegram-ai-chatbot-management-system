@@ -63,7 +63,7 @@ class Agent(Base):
     __tablename__ = "agents"
     id: Mapped[int] = mapped_column(primary_key=True)
     admin_id: Mapped[int] = mapped_column(ForeignKey("admins.id"), unique=True)
-    availability: Mapped[str] = mapped_column(String(20), default="available")
+    availability: Mapped[str] = mapped_column(String(20), default="available")  # available / away / off
 
     admin: Mapped[Admin] = relationship()
 

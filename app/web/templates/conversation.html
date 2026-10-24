@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="/conversations">← Back to conversations</a></p>
+<div class="conversation">
+  <section class="timeline-box">
+    <h2>Conversation #{{ c.id }} · {{ c.user.full_name | pii("name", show_pii) }}
+      <span class="muted small">{{ c.user.username | pii("username", show_pii) }} · {{ c.user.language }}</span></h2>
+    <div id="timeline" class="timeline"
+         hx-get="/conversations/{{ c.id }}/messages" hx-trigger="every 5s, new-message from:body"
+         hx-swap="beforeend" hx-vals='js:{after: lastMessageId()}'>
+      {% include "_messages.html" %}
+    </div>
+  </section>
+  <aside id="handoff-panel" class="panel">
+    {% include "_handoff_panel.html" %}
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  function lastMessageId() {
+    var items = document.querySelectorAll("#timeline [data-id]");
+    return items.length ? items[items.length - 1].dataset.id : 0;
+  }
+  function scrollTimeline() { var t = document.getElementById("timeline"); t.scrollTop = t.scrollHeight; }
+  document.body.addEventListener("htmx:afterSwap", function (e) { if (e.target.id === "timeline") scrollTimeline(); });
+  scrollTimeline();
+</script>
+{% endblock %}

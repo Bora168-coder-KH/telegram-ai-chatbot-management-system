@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     ai_timeout: float = 20.0  # seconds
     default_language: str = "en"  # "en" or "km"
 
+    timezone: str = "Asia/Phnom_Penh"  # dashboard times; the database stores UTC
+    session_timeout_minutes: int = 30
+    secure_cookies: bool = False  # set true when the dashboard is served over HTTPS  # Auto Logout after this much inactivity
+
     # First admin account, created on first start if there is no admin yet.
     admin_email: str = "admin@example.com"
     admin_password: str = ""  # empty: a random password is generated and printed once

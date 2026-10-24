@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="muted small">An intent matches when a message is similar to one of its training phrases. Entities (phone, email, date, number) found in the message can be used in the response as <code>{date}</code>, <code>{phone}</code>, <code>{email}</code>, <code>{number}</code>. The intent <code>contact_request</code> starts the request form.</p>
+
+<form class="form" hx-post="/intents/test" hx-target="#intent-test">
+  <h2>Test a sentence</h2>
+  <div class="inline">
+    <input name="text" required placeholder="e.g. I want to book an appointment on 2026-11-02">
+    <select name="language" aria-label="Language"><option value="en">English</option><option value="km">Khmer</option></select>
+    <button type="submit" class="secondary">Test</button>
+  </div>
+  <div id="intent-test"></div>
+</form>
+
+{% if can("train") %}
+<form class="form" hx-post="/intents" hx-target="#intent-rows" hx-swap="afterbegin" hx-on::after-request="if (event.detail.successful) this.reset()">
+  <h2>Add intent</h2>
+  <div class="row">
+    <label>Name <input name="name" required placeholder="book_appointment"></label>
+    <label>Priority <input type="number" name="priority" value="0" min="0" max="100"></label>
+    <label>Description <input name="description"></label>
+  </div>
+  <label>Training phrases (one per line; start a line with <code>km:</code> for Khmer)
+    <textarea name="phrases" rows="4" required placeholder="I want to book an appointment&#10;book a meeting&#10;km: ខ្ញុំចង់ណាត់ជួប"></textarea></label>
+  <label>Response <textarea name="response" rows="2" placeholder="We noted your appointment for {date}."></textarea></label>
+  <fieldset class="checks"><legend>Entities to extract</legend>
+    {% for kind in entity_kinds %}<label><input type="checkbox" name="entities" value="{{ kind }}"> {{ kind }}</label>{% endfor %}
+  </fieldset>
+  <button type="submit">Add intent</button>
+</form>
+{% endif %}
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Intent</th><th>Training phrases</th><th>Response</th><th>Entities</th><th>Priority</th><th>Status</th><th></th></tr></thead>
+  <tbody id="intent-rows">
+    {% for i in intents %}{% include "_intent_row.html" %}{% else %}<tr><td colspan="7" class="muted">No intents yet.</td></tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
