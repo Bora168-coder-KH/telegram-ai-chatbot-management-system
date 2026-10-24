@@ -17,3 +17,9 @@ venv/
 .vscode/
 .idea/
 .DS_Store
+
+# Generated first admin password
+admin-password.txt
+
+# Database backups
+backups/

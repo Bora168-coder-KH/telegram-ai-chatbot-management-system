@@ -5,6 +5,7 @@ It is safe to run more than once (it only adds data if the tables are empty).
 """
 import asyncio
 import logging
+import os
 import secrets
 
 from sqlalchemy import func, select
@@ -53,6 +54,23 @@ INTENTS = {
     ),
 }
 
+PASSWORD_FILE = "admin-password.txt"  # git-ignored
+
+
+def _generated_password() -> str:
+    """No ADMIN_PASSWORD in .env: make one and write it to a file only the owner can read."""
+    password = secrets.token_urlsafe(12)
+    try:
+        fd = os.open(PASSWORD_FILE, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, "w") as f:
+            f.write(f"{settings.admin_email}\n{password}\n")
+        logger.warning("Created admin %s; the initial password is in %s (delete the file after you log in, "
+                       "or set ADMIN_PASSWORD in .env)", settings.admin_email, PASSWORD_FILE)
+    except OSError:
+        logger.error("Created admin %s but could not write %s; set ADMIN_PASSWORD in .env and reset the "
+                     "admins table", settings.admin_email, PASSWORD_FILE)
+    return password
+
 
 async def _empty(session: AsyncSession, model) -> bool:
     return (await session.execute(select(func.count()).select_from(model))).scalar_one() == 0
@@ -75,11 +93,7 @@ async def seed_defaults(session: AsyncSession) -> None:
             session.add(Role(name=name, permissions=permissions))
     await session.flush()
     if await _empty(session, Admin):
-        password = settings.admin_password or secrets.token_urlsafe(9)
-        if not settings.admin_password:
-            logger.warning("Created admin %s with password %s (set ADMIN_PASSWORD in .env to choose it)",
-                           settings.admin_email, password)
-            print(f"Admin login: {settings.admin_email} / {password}")
+        password = settings.admin_password or _generated_password()
         role = (await session.execute(select(Role).where(Role.name == "Administrator"))).scalar_one()
         admin = Admin(name="Administrator", email=settings.admin_email, password_hash=hash_password(password),
                       role_id=role.id)
