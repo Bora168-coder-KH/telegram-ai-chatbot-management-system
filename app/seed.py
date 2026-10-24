@@ -52,7 +52,7 @@ async def seed_defaults(session: AsyncSession) -> None:
                 category="General", keywords="opening hours,open,office hours", language="en"),
             FAQ(question="How do I register?",
                 answer="You can register by choosing Registration in the menu or visiting our office.",
-                category="Registration", keywords="register,registration,sign up", language="en"),
+                category="Registration", keywords="how do i register,how to register,how can i register", language="en"),
             FAQ(question="ម៉ោងបើកទ្វាររបស់អ្នកគឺម៉ោងប៉ុន្មាន?",
                 answer="យើងបើកពីថ្ងៃច័ន្ទដល់ថ្ងៃសុក្រ ម៉ោង ៨:០០ ដល់ ១៧:០០។",
                 category="General", keywords="ម៉ោងបើក,ម៉ោងធ្វើការ", language="km"),
