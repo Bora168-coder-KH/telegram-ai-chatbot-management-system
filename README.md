@@ -163,7 +163,7 @@ app/
     static/            style.css and the PDF fonts
 migrations/            Alembic migrations
 scripts/               backup, copy_database, evaluate_questions
-tests/                 pytest tests (82)
+tests/                 pytest tests (84)
 docs/                  architecture, roadmap, requirement coverage, demo script, evaluation, screenshots
 ```
 

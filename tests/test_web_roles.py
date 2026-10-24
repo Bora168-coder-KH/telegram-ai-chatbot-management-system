@@ -45,7 +45,11 @@ def _user_with_contact(session):
 
 
 def test_viewer_sees_masked_data_and_cannot_change_things():
+    async def log_with_contact(session):
+        from app.services import logs
+        await logs.activity(session, "Logged form", details="call me on 012 345 678")
     with TestClient(app) as admin_client:
+        _db(log_with_contact)
         login(admin_client)
         _make_account(admin_client, "viewer@example.com", "Viewer")
     _db(_user_with_contact)
@@ -60,6 +64,7 @@ def test_viewer_sees_masked_data_and_cannot_change_things():
         assert client.get("/broadcast").status_code == 403
         assert client.post("/faq", data={"question": "q", "answer": "a"}).status_code == 403
         assert client.get("/reports").status_code == 200  # Viewer has "report"
+        assert "012***678" in client.get("/logs?q=Logged").text  # free text in logs is masked too
 
 
 def test_admin_sees_full_data():
@@ -147,8 +152,8 @@ def test_broadcast_from_the_dashboard(monkeypatch):
         broadcast_id = re.findall(r'hx-post="/broadcast/(\d+)/cancel"', scheduled.text)[0]
         assert "cancelled" in client.post(f"/broadcast/{broadcast_id}/cancel").text
 
-    for _ in range(50):  # the "send now" broadcast runs as a background task
-        if bot.send_message.await_count:
-            break
-        time.sleep(0.05)
-    assert bot.send_message.await_args.args == (5550003, "Exam on Monday")
+        for _ in range(100):  # the "send now" broadcast runs as a background task in the app's event loop
+            if bot.send_message.await_count:
+                break
+            time.sleep(0.05)
+        assert bot.send_message.await_args.args == (5550003, "Exam on Monday")

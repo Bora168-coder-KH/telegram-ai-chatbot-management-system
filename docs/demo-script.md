@@ -50,18 +50,20 @@ uvicorn app.web.main:app               # the dashboard: http://127.0.0.1:8000
 4. **Intent with an entity.** Type `I want to book an appointment on 2026-11-02`.
    *Shows:* intent detection with training phrases and date extraction.
    *Expect:* "We noted your appointment request for 2026-11-02".
-5. **Form with validation.** Tap 📝 Send a Request. Answer: name `R2` (rejected), `Sok Dara`, phone `123` (rejected),
+5. **Unknown question.** Type `is there a bus to campus` (checked: it has no FAQ, so it falls back).
+   *Shows:* fallback with Rephrase / Main Menu / Human Support buttons; the question is saved as unanswered.
+   Do this **before** the form: once the form is sent, an agent owns the conversation and the bot stops
+   answering until the request is resolved (step 9).
+6. **Form with validation.** Tap 📝 Send a Request. Answer: name `R2` (rejected), `Sok Dara`, phone `123` (rejected),
    `012 345 678`, email `dara@example.com`, request `I need my certificate`, then ✅ Yes.
    *Shows:* the multi-step form, input validation, the confirmation step.
    *Expect:* error messages for the bad inputs, a summary, then "Thank you! Your request was sent…".
-6. **Unknown question.** Type `is there a bus to campus` (checked: it has no FAQ, so it falls back).
-   *Shows:* fallback with Rephrase / Main Menu / Human Support buttons; the question is saved as unanswered.
 
 ### The staff (dashboard)
 
 7. **Login and dashboard.** Log in as the Administrator.
-   *Shows:* login, statistics cards, KPIs, the four charts, "Top unanswered questions" with the question from step 6.
-8. **Support queue and reply.** Conversations → the request from step 5 is in the queue, auto-assigned. Open it: the
+   *Shows:* login, statistics cards, KPIs, the four charts, "Top unanswered questions" with the question from step 5.
+8. **Support queue and reply.** Conversations → the request from step 6 is in the queue, auto-assigned. Open it: the
    timeline shows the whole chat and the form details. Type a reply and send it.
    *Expect:* the reply arrives on the student's phone within a second. Send a message from the phone: it appears in
    the timeline by itself (live updates every 5 s). The bot does not try to answer it; it only says once that the
@@ -85,6 +87,11 @@ uvicorn app.web.main:app               # the dashboard: http://127.0.0.1:8000
   resolved story without Telegram. Then show the screenshots.
 - **The AI does not answer:** that is expected without a working key; the bot falls back politely. Say so and move on.
 - **Bad demo data:** `python -m scripts.backup restore backups/<file>.db` (stop both processes first).
+- **"Your access was suspended" while rehearsing:** sending the same text 3 times within a minute is a spam strike,
+  and 3 strikes in an hour suspend the account. Dashboard → Users → set the user back to Active.
+- **The bot only says "passed to the support agent":** an agent owns that conversation. Resolve or close it in
+  Conversations, then the bot answers again.
+- **The tests for this script:** `pytest -v tests/test_demo_script.py` plays steps 1-11 in this order.
 
 ## Likely questions
 

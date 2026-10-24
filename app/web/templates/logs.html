@@ -18,7 +18,8 @@
     <td>{{ log.actor }}</td>
     <td>{{ log.action }}</td>
     <td>{{ log.record_id or "-" }}</td>
-    <td>{% if log.details %}<details><summary>{{ log.details[:60] }}{% if log.details | length > 60 %}…{% endif %}</summary><pre>{{ log.details }}</pre></details>{% endif %}</td>
+    {% set details = log.details | pii_text(show_pii) %}
+    <td>{% if details %}<details><summary>{{ details[:60] }}{% if details | length > 60 %}…{% endif %}</summary><pre>{{ details }}</pre></details>{% endif %}</td>
   </tr>
   {% else %}
   <tr><td colspan="6" class="muted">No logs.</td></tr>
