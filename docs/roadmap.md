@@ -28,7 +28,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
 - [x] Rate limit, spam detection, content moderation (prototypes)
 - [x] Admin login, session, auto logout, role and permission checks
-- [ ] More tests: intents, forms, handoff, permissions, end-to-end
+- [x] More tests: intents, forms, handoff, permissions, end-to-end
 
 ## Lay Sopanha - UI/UX, documentation, demo
 - [x] Bot main menu (Reply Keyboard) and inline keyboards
