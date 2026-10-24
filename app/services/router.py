@@ -6,6 +6,7 @@ Commands (/start, /help, /menu and custom commands) are detected by the bot laye
 before this function is called. `route_message()` handles everything after that.
 """
 import re
+import unicodedata
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 
@@ -28,8 +29,14 @@ class Reply:
 
 
 def normalize(text: str) -> str:
-    """Lowercase, remove punctuation, collapse spaces."""
-    text = re.sub(r"[^\w\s]", " ", text.lower())
+    """Lowercase, remove punctuation, collapse spaces.
+
+    Keeps letters, numbers and combining marks: Khmer vowel signs are marks, and
+    removing them would break Khmer words apart.
+    """
+    text = "".join(
+        ch if ch.isspace() or unicodedata.category(ch)[0] in "LMN" else " " for ch in text.lower()
+    )
     return re.sub(r"\s+", " ", text).strip()
 
 

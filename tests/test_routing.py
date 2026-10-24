@@ -26,6 +26,8 @@ async def _reply(text: str, language: str = "en"):
 
 def test_normalize():
     assert normalize("  Hello,   WORLD!! ") == "hello world"
+    # Khmer vowel signs are kept, only the Khmer full stop is removed
+    assert normalize("បង់ប្រាក់មុន។") == "បង់ប្រាក់មុន"
 
 
 def test_keyword_rule():
