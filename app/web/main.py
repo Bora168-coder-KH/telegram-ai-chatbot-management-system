@@ -18,6 +18,7 @@ from app.services.masking import mask_text, pii
 from app.web.deps import BASE_DIR, LoginRequired, templates
 from app.web.routes import auth, broadcast, content, conversations, dashboard, reports
 from app.web.routes import settings as settings_routes
+from app.web import webhook
 from app.web.timeutil import localtime
 
 
@@ -26,7 +27,11 @@ async def lifespan(app: FastAPI):
     await init_db()
     async with SessionLocal() as session:
         await seed_defaults(session)
+    if webhook.enabled():
+        await webhook.start()
     yield
+    if webhook.enabled():
+        await webhook.stop()
 
 
 app = FastAPI(title="AI Chatbot Management System", lifespan=lifespan)
@@ -39,7 +44,7 @@ templates.env.filters["pii"] = pii
 templates.env.filters["pii_text"] = mask_text
 templates.env.filters["localtime"] = localtime
 
-for module in (auth, dashboard, conversations, content, broadcast, reports, settings_routes):
+for module in (auth, dashboard, conversations, content, broadcast, reports, settings_routes, webhook):
     app.include_router(module.router)
 
 

@@ -1,52 +1,31 @@
-"""Run the Telegram bot (Long Polling):  python -m app.bot.main"""
+"""Run the Telegram bot with Long Polling:  python -m app.bot.main
+
+For Webhook mode set BOT_MODE=webhook and run only the dashboard (see app/web/webhook.py).
+"""
 import asyncio
 import logging
 
-from aiogram import Dispatcher
-from aiogram.exceptions import TelegramUnauthorizedError
-from aiogram.types import BotCommand
-
-from app.bot.handlers import router
-from app.bot.middlewares import DbSessionMiddleware, ProtectionMiddleware
+from app.bot.runtime import build_dispatcher, prepare_bot
 from app.config import settings
-from app.db import SessionLocal, init_db
-from app.seed import seed_defaults
 from app.services.scheduler import build_scheduler
-from app.services.telegram import make_bot
 
 
 async def main() -> None:
     logging.basicConfig(level=logging.INFO)
     if not settings.bot_token:
         raise SystemExit("BOT_TOKEN is missing. Copy .env.example to .env and set your token.")
+    if settings.bot_mode == "webhook":
+        raise SystemExit("BOT_MODE=webhook: the dashboard receives updates, do not run the polling bot.")
 
-    await init_db()
-    async with SessionLocal() as session:
-        await seed_defaults(session)  # sample data for the prototype
-
-    bot = make_bot()  # with retry for Telegram API errors
-    try:
-        me = await bot.get_me()  # Bot Authentication: Telegram verifies the token
-    except TelegramUnauthorizedError:
-        raise SystemExit("Invalid BOT_TOKEN. Check the token from @BotFather.")
-    logging.info("Authenticated as @%s", me.username)
-
-    await bot.set_my_commands([
-        BotCommand(command="start", description="Start the bot"),
-        BotCommand(command="help", description="Show help"),
-        BotCommand(command="menu", description="Show the main menu"),
-    ])
-
-    dispatcher = Dispatcher()
-    dispatcher.update.outer_middleware(DbSessionMiddleware())
-    dispatcher.message.middleware(ProtectionMiddleware())  # rate limit, spam, moderation
-    dispatcher.include_router(router)
+    bot = await prepare_bot()
+    await bot.delete_webhook()  # polling does not work while a webhook is set
     scheduler = build_scheduler()  # scheduled broadcasts and reminders
     scheduler.start()
     try:
-        await dispatcher.start_polling(bot)
+        await build_dispatcher().start_polling(bot)
     finally:
         scheduler.shutdown(wait=False)
+        await bot.session.close()
 
 
 if __name__ == "__main__":

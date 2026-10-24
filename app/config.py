@@ -7,6 +7,9 @@ class Settings(BaseSettings):
 
     # Secrets: never hard-code these. Put them in .env (which is git-ignored).
     bot_token: str = ""
+    bot_mode: str = "polling"  # "polling" (python -m app.bot.main) or "webhook" (the dashboard receives updates)
+    webhook_url: str = ""  # public HTTPS base URL, e.g. https://bot.example.com
+    webhook_secret: str = ""
     secret_key: str = "change-me"
     ai_api_key: str = ""
 
