@@ -9,11 +9,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot import keyboards as kb
 from app.i18n import button_key, category_label, t
-from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
+from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Notification, Source, UserStatus
 from app.models import Command as BotCommand
 from app.models import Message as DbMessage
-from app.services import forms, handoff, logs
+from app.services import forms, handoff, logs, notifications
 from app.services import users as svc
+from app.services.notifications import NotificationType
 from app.services.router import route_message
 
 logger = logging.getLogger(__name__)
@@ -85,6 +86,17 @@ async def _human_support(session, target: Message, user, conversation):
     await _send(session, target, user, conversation, t(user.language, "handoff_created"), Source.COMMAND)
 
 
+async def _record_welcome(session: AsyncSession, user):
+    """Welcome notification: stored once per user (the welcome text itself is sent by the handler)."""
+    exists = (await session.execute(
+        select(Notification.id).where(Notification.user_id == user.id,
+                                      Notification.type == NotificationType.WELCOME).limit(1)
+    )).scalar_one_or_none()
+    if exists is None:
+        notifications.record(session, user, NotificationType.WELCOME, t(user.language, "welcome"))
+        await session.commit()
+
+
 async def _send_form_reply(session, target: Message, user, conversation, reply: forms.FormReply):
     markup = kb.confirm_keyboard(user.language) if reply.confirm else None
     if reply.finished:
@@ -124,6 +136,7 @@ async def cmd_start(message: Message, session: AsyncSession):
                     Source.COMMAND, kb.language_keyboard())
     else:
         await _show_main_menu(session, message, user, conversation, "welcome")
+        await _record_welcome(session, user)
 
 
 @router.message(Command("help"))
@@ -227,6 +240,7 @@ async def on_language(callback: CallbackQuery, session: AsyncSession):
     await callback.answer()
     await callback.message.edit_reply_markup(reply_markup=None)
     await _show_main_menu(session, callback.message, user, conversation, "welcome")
+    await _record_welcome(session, user)
 
 
 @router.callback_query(F.data.startswith("faqcat:"))

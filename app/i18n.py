@@ -57,6 +57,7 @@ TEXTS = {
         "form_invalid_request": "Please describe your request in 5 to 1000 characters.",
         "form_done": "Thank you! Your request was sent to our support team. An agent will reply here soon.",
         "form_cancelled": "The request was cancelled. Nothing was sent.",
+        "form_reminder": "Reminder: your request is not finished yet. Please answer the last question, or type /cancel.",
     },
     "km": {
         "choose_language": "សូមជ្រើសរើសភាសារបស់អ្នក៖",
@@ -112,6 +113,7 @@ TEXTS = {
         "form_invalid_request": "សូមពិពណ៌នាសំណើរបស់អ្នកពី ៥ ដល់ ១០០០ តួអក្សរ។",
         "form_done": "អរគុណ! សំណើរបស់អ្នកត្រូវបានផ្ញើទៅក្រុមជំនួយ។ ភ្នាក់ងារនឹងឆ្លើយតបនៅទីនេះឆាប់ៗ។",
         "form_cancelled": "សំណើត្រូវបានបោះបង់។ គ្មានអ្វីត្រូវបានផ្ញើទេ។",
+        "form_reminder": "រំលឹក៖ សំណើរបស់អ្នកមិនទាន់បញ្ចប់នៅឡើយទេ។ សូមឆ្លើយសំណួរចុងក្រោយ ឬវាយ /cancel។",
     },
 }
 

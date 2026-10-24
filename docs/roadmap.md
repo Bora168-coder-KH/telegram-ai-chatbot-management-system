@@ -25,7 +25,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Form conversation (Name -> Phone -> Email -> Request -> Confirmation) using `Conversation.session_step` and `context`
 - [x] Input validation (phone, email, date, number) and invalid input handling
 - [ ] Human handoff: assign agent, agent queue, status changes (Open, Assigned, In Progress, Resolved, Closed)
-- [ ] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
+- [x] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
 - [ ] Rate limit, spam detection, content moderation (prototypes)
 - [ ] Admin login, session, auto logout, role and permission checks
 - [ ] More tests: intents, forms, handoff, permissions, end-to-end

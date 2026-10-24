@@ -11,6 +11,7 @@ from app.bot.middlewares import DbSessionMiddleware
 from app.config import settings
 from app.db import SessionLocal, init_db
 from app.seed import seed_defaults
+from app.services.scheduler import build_scheduler
 from app.services.telegram import make_bot
 
 
@@ -39,7 +40,12 @@ async def main() -> None:
     dispatcher = Dispatcher()
     dispatcher.update.outer_middleware(DbSessionMiddleware())
     dispatcher.include_router(router)
-    await dispatcher.start_polling(bot)
+    scheduler = build_scheduler()  # scheduled broadcasts and reminders
+    scheduler.start()
+    try:
+        await dispatcher.start_polling(bot)
+    finally:
+        scheduler.shutdown(wait=False)
 
 
 if __name__ == "__main__":
