@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.i18n import t
 from app.models import Conversation, TelegramUser
-from app.services import validators
+from app.services import logs, validators
 from app.services.text import normalize
 
 STEPS = ["name", "phone", "email", "request", "confirm"]
@@ -82,6 +82,7 @@ async def submit_form(
     _set(conversation, None, None)
     conversation.context = {**conversation.context, "request": form}
     await request_human_support(session, conversation, note=form.get("request", ""))
+    await logs.activity(session, "Contact form sent", record_id=conversation.id, details=form.get("request", ""))
     return FormReply(t(lang, "form_done"), finished=True)
 
 

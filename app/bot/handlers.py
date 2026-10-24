@@ -3,7 +3,7 @@ import logging
 
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, ErrorEvent, Message
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,7 +11,7 @@ from app.bot import keyboards as kb
 from app.i18n import button_key, category_label, t
 from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
 from app.models import Command as BotCommand
-from app.services import forms
+from app.services import forms, logs
 from app.services import users as svc
 from app.services.handoff import request_human_support
 from app.services.router import route_message
@@ -27,6 +27,9 @@ async def _load(session: AsyncSession, tg_user):
         session, tg_user.id, tg_user.username, tg_user.full_name
     )
     conversation = await svc.get_open_conversation(session, user)
+    if created:
+        await logs.activity(session, "New Telegram user", record_id=user.id,
+                            details=f"@{user.username}" if user.username else "")
     return user, conversation, created
 
 
@@ -92,6 +95,20 @@ async def _send_form_reply(session, target: Message, user, conversation, reply: 
 async def _start_form(session, target: Message, user, conversation):
     reply = await forms.start_form(session, conversation, user.language)
     await _send_form_reply(session, target, user, conversation, reply)
+
+
+@router.errors()
+async def on_error(event: ErrorEvent):
+    """Error Log: save the exception, and tell the user something went wrong."""
+    logger.exception("handler error", exc_info=event.exception)
+    await logs.error("bot handler", event.exception, details=str(event.update.update_id))
+    message = event.update.message or (event.update.callback_query and event.update.callback_query.message)
+    if isinstance(message, Message):
+        try:
+            await message.answer(t("en", "error") + "\n" + t("km", "error"))
+        except Exception:
+            pass
+    return True
 
 
 # ---- commands ----------------------------------------------------------------
