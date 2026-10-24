@@ -9,7 +9,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Long Polling
 - [ ] Webhook mode (FastAPI endpoint + `set_webhook`) for the final demo
 - [x] Alembic migrations (replace `create_all`)
-- [ ] Switch to PostgreSQL (`docker-compose.yml` is ready)
+- [ ] Switch to PostgreSQL (`docker-compose.yml` is ready). Code, asyncpg and `scripts/copy_database.py` are ready and tested on SQLite; still to do: run it once against a real PostgreSQL server (see README)
 - [x] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
 - [x] Retry logic for Telegram API errors
 - [x] Error Log, Activity Log and Audit Log writing (`Log` model)
