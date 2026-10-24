@@ -14,7 +14,7 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Retry logic for Telegram API errors
 - [x] Error Log, Activity Log and Audit Log writing (`Log` model)
 - [x] Data masking for Telegram user data by role
-- [ ] Backup and recovery script (prototype)
+- [x] Backup and recovery script (prototype)
 
 ## Phal Raksa - features, requirements, business logic, testing
 - [x] `/start`, `/help`, `/menu`, custom commands
