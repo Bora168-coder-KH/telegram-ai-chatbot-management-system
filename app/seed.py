@@ -4,12 +4,18 @@ Run:  python -m app.seed
 It is safe to run more than once (it only adds data if the tables are empty).
 """
 import asyncio
+import logging
+import secrets
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import settings
 from app.db import SessionLocal, init_db
-from app.models import FAQ, Bot, Command, Intent, KnowledgeArticle, Role, TrainingPhrase
+from app.models import FAQ, Admin, Agent, Bot, Command, Intent, KnowledgeArticle, Role, TrainingPhrase
+from app.services.auth import hash_password
+
+logger = logging.getLogger(__name__)
 
 ROLES = {
     "Administrator": ["view", "create", "edit", "delete", "reply", "broadcast", "train", "report"],
@@ -67,6 +73,19 @@ async def seed_defaults(session: AsyncSession) -> None:
     if await _empty(session, Role):
         for name, permissions in ROLES.items():
             session.add(Role(name=name, permissions=permissions))
+    await session.flush()
+    if await _empty(session, Admin):
+        password = settings.admin_password or secrets.token_urlsafe(9)
+        if not settings.admin_password:
+            logger.warning("Created admin %s with password %s (set ADMIN_PASSWORD in .env to choose it)",
+                           settings.admin_email, password)
+            print(f"Admin login: {settings.admin_email} / {password}")
+        role = (await session.execute(select(Role).where(Role.name == "Administrator"))).scalar_one()
+        admin = Admin(name="Administrator", email=settings.admin_email, password_hash=hash_password(password),
+                      role_id=role.id)
+        session.add(admin)
+        await session.flush()
+        session.add(Agent(admin_id=admin.id))  # the first admin can also answer support requests
     if await _empty(session, Command):
         session.add(Command(
             name="contact",

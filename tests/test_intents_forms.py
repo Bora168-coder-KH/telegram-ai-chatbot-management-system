@@ -103,7 +103,8 @@ def test_form_conversation_with_invalid_input_and_confirmation():
     user, conversation = asyncio.run(scenario())
     assert (user.full_name, user.phone, user.email) == ("Sok Dara", "012345678", "dara@example.com")
     assert conversation.session_step is None
-    assert conversation.support_status == SupportStatus.OPEN
+    assert conversation.support_status == SupportStatus.ASSIGNED  # auto-assigned to the seeded admin agent
+    assert conversation.assigned_agent_id is not None
     assert conversation.context["request"]["request"] == "I need my certificate"
 
 

@@ -132,6 +132,9 @@ class Conversation(Base):
     session_step: Mapped[str | None] = mapped_column(String(50), nullable=True)
     context: Mapped[dict] = mapped_column(JSON, default=dict)
 
+    user: Mapped[TelegramUser] = relationship()
+    agent: Mapped["Agent | None"] = relationship()
+
 
 class Message(Base):
     __tablename__ = "messages"

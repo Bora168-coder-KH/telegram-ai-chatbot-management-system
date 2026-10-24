@@ -11,9 +11,9 @@ from app.bot import keyboards as kb
 from app.i18n import button_key, category_label, t
 from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
 from app.models import Command as BotCommand
-from app.services import forms, logs
+from app.models import Message as DbMessage
+from app.services import forms, handoff, logs
 from app.services import users as svc
-from app.services.handoff import request_human_support
 from app.services.router import route_message
 
 logger = logging.getLogger(__name__)
@@ -81,7 +81,7 @@ async def _show_faq_categories(session, target: Message, user, conversation):
 
 
 async def _human_support(session, target: Message, user, conversation):
-    await request_human_support(session, conversation)
+    await handoff.request_human_support(session, conversation)
     await _send(session, target, user, conversation, t(user.language, "handoff_created"), Source.COMMAND)
 
 
@@ -331,6 +331,17 @@ async def on_form_confirm(callback: CallbackQuery, session: AsyncSession):
     await _send_form_reply(session, callback.message, user, conversation, reply)
 
 
+async def _tell_agent_waiting(session, message: Message, user, conversation):
+    """Say "passed to the agent" once, not after every message."""
+    waiting = t(user.language, "handoff_waiting")
+    last = (await session.execute(
+        select(DbMessage).where(DbMessage.conversation_id == conversation.id, DbMessage.direction == "outgoing")
+        .order_by(DbMessage.id.desc()).limit(1)
+    )).scalar_one_or_none()
+    if last is None or last.content != waiting:
+        await _send(session, message, user, conversation, waiting, Source.COMMAND)
+
+
 # ---- normal messages ----------------------------------------------------------
 @router.message(F.text)
 async def on_text(message: Message, session: AsyncSession):
@@ -341,6 +352,9 @@ async def on_text(message: Message, session: AsyncSession):
     if not message.text:
         return
     await svc.save_message(session, conversation, user, "incoming", message.text)
+    if handoff.human_mode(conversation):  # an agent is handling it: no automatic answer
+        await _tell_agent_waiting(session, message, user, conversation)
+        return
     if forms.in_form(conversation):  # the user is answering a form step
         form_reply = await forms.handle_form_input(session, conversation, user, message.text)
         await _send_form_reply(session, message, user, conversation, form_reply)

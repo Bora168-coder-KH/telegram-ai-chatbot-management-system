@@ -14,5 +14,9 @@ class Settings(BaseSettings):
     ai_model: str = ""
     default_language: str = "en"  # "en" or "km"
 
+    # First admin account, created on first start if there is no admin yet.
+    admin_email: str = "admin@example.com"
+    admin_password: str = ""  # empty: a random password is generated and printed once
+
 
 settings = Settings()
