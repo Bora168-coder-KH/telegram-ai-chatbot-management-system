@@ -7,47 +7,47 @@ Everyone can pick up any task; the owner is the person who makes sure it gets fi
 - [x] Data models for the ERD (`app/models.py`)
 - [x] Bot authentication (token check on start)
 - [x] Long Polling
-- [ ] Webhook mode (FastAPI endpoint + `set_webhook`) for the final demo
-- [ ] Alembic migrations (replace `create_all`)
-- [ ] Switch to PostgreSQL (`docker-compose.yml` is ready)
-- [ ] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
-- [ ] Retry logic for Telegram API errors
-- [ ] Error Log, Activity Log and Audit Log writing (`Log` model)
-- [ ] Data masking for Telegram user data by role
-- [ ] Backup and recovery script (prototype)
+- [x] Webhook mode (FastAPI endpoint + `set_webhook`) for the final demo
+- [x] Alembic migrations (replace `create_all`)
+- [ ] Switch to PostgreSQL (`docker-compose.yml` is ready). Code, asyncpg and `scripts/copy_database.py` are ready and tested on SQLite; still to do: run it once against a real PostgreSQL server (see README)
+- [x] AI provider integration in `services/ai.py` (prompt, timeout, retry, error handling)
+- [x] Retry logic for Telegram API errors
+- [x] Error Log, Activity Log and Audit Log writing (`Log` model)
+- [x] Data masking for Telegram user data by role
+- [x] Backup and recovery script (prototype)
 
 ## Phal Raksa - features, requirements, business logic, testing
 - [x] `/start`, `/help`, `/menu`, custom commands
 - [x] Response routing (rule, FAQ, Knowledge Base, AI hook, fallback)
 - [x] Unknown question detection
 - [x] Feedback (thumbs and stars)
-- [ ] Intent detection with training phrases and entity extraction
-- [ ] Form conversation (Name -> Phone -> Email -> Request -> Confirmation) using `Conversation.session_step` and `context`
-- [ ] Input validation (phone, email, date, number) and invalid input handling
-- [ ] Human handoff: assign agent, agent queue, status changes (Open, Assigned, In Progress, Resolved, Closed)
-- [ ] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
-- [ ] Rate limit, spam detection, content moderation (prototypes)
-- [ ] Admin login, session, auto logout, role and permission checks
-- [ ] More tests: intents, forms, handoff, permissions, end-to-end
+- [x] Intent detection with training phrases and entity extraction
+- [x] Form conversation (Name -> Phone -> Email -> Request -> Confirmation) using `Conversation.session_step` and `context`
+- [x] Input validation (phone, email, date, number) and invalid input handling
+- [x] Human handoff: assign agent, agent queue, status changes (Open, Assigned, In Progress, Resolved, Closed)
+- [x] Notifications (welcome, reminder, support reply) and scheduled broadcast (APScheduler)
+- [x] Rate limit, spam detection, content moderation (prototypes)
+- [x] Admin login, session, auto logout, role and permission checks
+- [x] More tests: intents, forms, handoff, permissions, end-to-end
 
 ## Lay Sopanha - UI/UX, documentation, demo
 - [x] Bot main menu (Reply Keyboard) and inline keyboards
 - [x] Dashboard, Users and FAQ pages (starter)
-- [ ] Conversations page: history timeline, agent reply box
-- [ ] Knowledge Base, Intents and Commands pages
-- [ ] Broadcast page (audience, preview, schedule, history)
-- [ ] Reports page with export to PDF and Excel
-- [ ] Settings page (bot info, AI settings, System Prompt, maintenance mode, roles)
-- [ ] Charts on the dashboard (Chart.js): user growth, incoming vs outgoing, popular questions
-- [ ] Responsive check on tablet and mobile
-- [ ] Screenshots, final documentation, live demo script
+- [x] Conversations page: history timeline, agent reply box
+- [x] Knowledge Base, Intents and Commands pages
+- [x] Broadcast page (audience, preview, schedule, history)
+- [x] Reports page with export to PDF and Excel
+- [x] Settings page (bot info, AI settings, System Prompt, maintenance mode, roles)
+- [x] Charts on the dashboard (Chart.js): user growth, incoming vs outgoing, popular questions
+- [x] Responsive check on tablet and mobile
+- [x] Screenshots, final documentation, live demo script
 
 ## Ponloeng Bora - analysis, KPIs, presentation
 - [x] KPI calculations on the dashboard (resolution, AI answer, fallback, handoff, satisfaction)
-- [ ] Review that every requirement in the assignment is covered (use the coverage map in Notion)
-- [ ] Decide the exact meaning of "Resolved" for the Resolution Rate and adjust `services/stats.py`
-- [ ] Collect real Khmer and English test questions for the FAQ and Knowledge Base
-- [ ] Final presentation and demo storyline
+- [x] Review that every requirement in the assignment is covered: `docs/requirements-coverage.md` (the Notion coverage map was not found; compare with the official brief)
+- [x] Decide the exact meaning of "Resolved" for the Resolution Rate and adjust `services/stats.py`
+- [x] Collect Khmer and English test questions: `docs/evaluation/test_questions.csv` (team-written; add real user questions after the demo)
+- [x] Final presentation and demo storyline: `docs/demo-script.md`
 
 ## Suggested order
 1. Everyone: run the starter, send `/start`, open the dashboard, read `router.py`.

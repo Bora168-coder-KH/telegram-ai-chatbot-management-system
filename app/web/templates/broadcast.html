@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="two-col">
+<form class="form" id="broadcast-form" hx-post="/broadcast" hx-target="#history" hx-confirm="Send this broadcast?"
+      hx-on::after-request="if (event.detail.successful) { this.reset(); document.getElementById('preview').innerHTML = ''; }">
+  <h2>New broadcast</h2>
+  <label>Message <textarea name="message" rows="5" required
+      hx-post="/broadcast/preview" hx-trigger="keyup changed delay:400ms" hx-target="#preview" hx-include="#broadcast-form"></textarea></label>
+  <label>Audience
+    <select name="audience" hx-post="/broadcast/preview" hx-trigger="change" hx-target="#preview" hx-include="#broadcast-form"
+            onchange="document.getElementById('ids').hidden = this.value !== 'selected'">
+      {% for key, label in audiences.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+    </select>
+  </label>
+  <label id="ids" hidden>User IDs (from the Users page, comma separated)
+    <input name="user_ids" placeholder="1, 4, 7" hx-post="/broadcast/preview" hx-trigger="keyup changed delay:400ms" hx-target="#preview" hx-include="#broadcast-form"></label>
+  <label>Schedule (optional, local time) <input type="datetime-local" name="scheduled_at"></label>
+  <p class="muted small">Leave the schedule empty to send now. Scheduled broadcasts are sent by the bot process. Blocked and suspended users never receive broadcasts.</p>
+  <button type="button" class="secondary" hx-post="/broadcast/preview" hx-target="#preview" hx-include="#broadcast-form">Preview</button>
+  <button type="submit">Send / schedule</button>
+</form>
+<section>
+  <h2>Preview</h2>
+  <div id="preview"><p class="muted">Type a message to see the preview.</p></div>
+</section>
+</div>
+
+<h2>History</h2>
+<div id="history" hx-get="/broadcast/history" hx-trigger="every 10s">
+  {% include "_broadcast_history.html" %}
+</div>
+{% endblock %}

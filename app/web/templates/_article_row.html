@@ -1,0 +1,13 @@
+<tr id="article-{{ a.id }}" class="{{ 'inactive' if a.status != 'Published' else '' }}">
+  <td>{{ a.title }}</td>
+  <td class="clip">{{ a.content }}</td>
+  <td>{{ a.category }}</td>
+  <td>{{ a.language }}</td>
+  <td>{{ a.keywords }}</td>
+  <td>{{ a.updated_at | localtime }}</td>
+  <td><span class="badge">{{ a.status }}</span></td>
+  <td class="actions">
+    {% if can("edit") %}<button class="small secondary" hx-post="/knowledge/{{ a.id }}/toggle" hx-target="#article-{{ a.id }}" hx-swap="outerHTML">{{ "Unpublish" if a.status == "Published" else "Publish" }}</button>{% endif %}
+    {% if can("delete") %}<button class="danger" hx-delete="/knowledge/{{ a.id }}" hx-target="#article-{{ a.id }}" hx-swap="outerHTML" hx-confirm="Delete this article?">Delete</button>{% endif %}
+  </td>
+</tr>

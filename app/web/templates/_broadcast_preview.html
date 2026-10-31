@@ -1,0 +1,5 @@
+<div class="phone-preview">
+  <div class="bubble outgoing"><div class="text">{{ message or "…" }}</div></div>
+</div>
+<p><strong>{{ users | length }}</strong> recipient{{ "" if users | length == 1 else "s" }} ({{ audience }})</p>
+{% if users %}<p class="muted small">{% for u in users[:8] %}{{ u.full_name | pii("name", show_pii) }}{{ ", " if not loop.last }}{% endfor %}{% if users | length > 8 %} and {{ users | length - 8 }} more{% endif %}</p>{% endif %}

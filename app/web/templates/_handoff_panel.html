@@ -1,0 +1,58 @@
+<h3>Human support</h3>
+{% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+<p>Status:
+  {% if c.support_status %}<span class="badge support-{{ c.support_status | lower | replace(' ', '-') }}">{{ c.support_status }}</span>
+  {% else %}<span class="muted">no support request</span>{% endif %}
+</p>
+<p>Agent: {{ c.agent.admin.name if c.agent else "not assigned" }}</p>
+
+{% if can("reply") %}
+  {% if not c.support_status or c.support_status in ("Resolved", "Closed") %}
+  <button hx-post="/conversations/{{ c.id }}/request" hx-target="#handoff-panel">Open a support request</button>
+  {% endif %}
+
+  {% if c.support_status and c.support_status not in ("Resolved", "Closed") %}
+  <form hx-post="/conversations/{{ c.id }}/assign" hx-target="#handoff-panel" class="inline">
+    <select name="agent_id" aria-label="Agent">
+      {% for a in agents %}<option value="{{ a.id }}" {{ "selected" if c.assigned_agent_id == a.id else "" }}>{{ a.admin.name }} ({{ a.availability }})</option>{% endfor %}
+    </select>
+    <button type="submit" class="secondary">Assign</button>
+  </form>
+  {% endif %}
+
+  {% if next_statuses %}
+  <div class="status-buttons">
+    {% for s in next_statuses %}
+    <button class="small {{ 'secondary' if s == 'Open' else '' }}" hx-post="/conversations/{{ c.id }}/status" hx-vals='{"status": "{{ s }}"}' hx-target="#handoff-panel">→ {{ s }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form class="reply" hx-post="/conversations/{{ c.id }}/reply" hx-target="#handoff-panel">
+    <label>Reply to the user in Telegram
+      <textarea name="text" rows="3" required placeholder="Type your answer…"></textarea>
+    </label>
+    <button type="submit">Send reply</button>
+  </form>
+{% else %}
+  <p class="muted small">Your role can view conversations but not reply.</p>
+{% endif %}
+
+{% set request_form = (c.context or {}).get("request") %}
+{% if request_form %}
+<h3>Request form</h3>
+<dl class="facts">
+  <dt>Name</dt><dd>{{ request_form.name | pii("name", show_pii) }}</dd>
+  <dt>Phone</dt><dd>{{ request_form.phone | pii("phone", show_pii) }}</dd>
+  <dt>Email</dt><dd>{{ request_form.email | pii("email", show_pii) }}</dd>
+  <dt>Request</dt><dd>{{ request_form.request | pii_text(show_pii) }}</dd>
+</dl>
+{% endif %}
+{% set entities = (c.context or {}).get("entities") %}
+{% if c.intent or entities %}
+<h3>Detected</h3>
+<dl class="facts">
+  <dt>Intent</dt><dd>{{ c.intent or "-" }}</dd>
+  {% for k, v in (entities or {}).items() %}<dt>{{ k }}</dt><dd>{{ v | pii(k, show_pii) if k in ("phone", "email") else v }}</dd>{% endfor %}
+</dl>
+{% endif %}

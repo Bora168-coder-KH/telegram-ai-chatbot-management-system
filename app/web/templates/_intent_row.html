@@ -1,0 +1,20 @@
+<tr id="intent-{{ i.id }}" class="{{ 'inactive' if i.status != 'Active' else '' }}">
+  <td><strong>{{ i.name }}</strong><div class="muted small">{{ i.description }}</div></td>
+  <td>
+    <ul class="phrases">{% for p in i.phrases %}<li><span class="badge">{{ p.language }}</span> {{ p.phrase }}</li>{% endfor %}</ul>
+    {% if can("train") %}
+    <form hx-post="/intents/{{ i.id }}/phrases" hx-target="#intent-{{ i.id }}" hx-swap="outerHTML" class="inline">
+      <input name="phrases" required placeholder="Add a phrase" aria-label="New training phrase">
+      <button type="submit" class="small secondary">Add</button>
+    </form>
+    {% endif %}
+  </td>
+  <td class="clip">{{ i.response or "-" }}</td>
+  <td>{{ (i.entities or []) | join(", ") or "-" }}</td>
+  <td>{{ i.priority }}</td>
+  <td><span class="badge">{{ i.status }}</span></td>
+  <td class="actions">
+    {% if can("train") %}<button class="small secondary" hx-post="/intents/{{ i.id }}/toggle" hx-target="#intent-{{ i.id }}" hx-swap="outerHTML">{{ "Disable" if i.status == "Active" else "Enable" }}</button>{% endif %}
+    {% if can("delete") %}<button class="danger" hx-delete="/intents/{{ i.id }}" hx-target="#intent-{{ i.id }}" hx-swap="outerHTML" hx-confirm="Delete this intent and its phrases?">Delete</button>{% endif %}
+  </td>
+</tr>

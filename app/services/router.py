@@ -1,13 +1,11 @@
 """Response Routing Logic.
 
-    Command -> Keyword / Rule -> FAQ -> Knowledge Base -> AI -> Fallback -> Human Handoff
+    Command -> Keyword / Rule -> Intent -> FAQ -> Knowledge Base -> AI -> Fallback -> Human Handoff
 
 Commands (/start, /help, /menu and custom commands) are detected by the bot layer
 before this function is called. `route_message()` handles everything after that.
 """
-import re
-import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 from sqlalchemy import select
@@ -16,7 +14,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.i18n import t
 from app.models import FAQ, Bot, KnowledgeArticle, Source, TelegramUser, UnknownQuestion, utcnow
 from app.services import ai
+from app.services.forms import FORM_INTENT
+from app.services.intents import detect_intent
 from app.services.rules import match_rule
+from app.services.text import keyword_list, normalize  # noqa: F401  (normalize is used by tests)
+from app.services.validators import scrub_contacts
 
 FAQ_MIN_SCORE = 0.6
 
@@ -26,30 +28,22 @@ class Reply:
     text: str
     source: str  # one of models.Source
     fallback: bool = False
-
-
-def normalize(text: str) -> str:
-    """Lowercase, remove punctuation, collapse spaces.
-
-    Keeps letters, numbers and combining marks: Khmer vowel signs are marks, and
-    removing them would break Khmer words apart.
-    """
-    text = "".join(
-        ch if ch.isspace() or unicodedata.category(ch)[0] in "LMN" else " " for ch in text.lower()
-    )
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def keyword_list(keywords: str) -> list[str]:
-    return [normalize(k) for k in keywords.split(",") if normalize(k)]
+    intent: str | None = None
+    entities: dict[str, str] = field(default_factory=dict)
+    start_form: bool = False  # the bot layer opens the form conversation
 
 
 def faq_score(text: str, faq: FAQ) -> float:
-    """0..1 score: similar question OR a keyword found in the message."""
+    """0..1 score: similar question OR a keyword found in the message.
+
+    A longer keyword is more specific, so it scores a little higher:
+    "register for my son" beats "how do i register", "saturday" beats "open".
+    """
     norm = normalize(text)
     score = SequenceMatcher(None, norm, normalize(faq.question)).ratio()
-    if any(k in norm for k in keyword_list(faq.keywords)):
-        score = max(score, 0.9)
+    hits = [k for k in keyword_list(faq.keywords) if k in norm]
+    if hits:
+        score = max(score, 0.9 + min(max(len(k) for k in hits), 40) * 0.001)
     return score
 
 
@@ -82,8 +76,8 @@ async def find_article(session: AsyncSession, text: str, language: str) -> Knowl
 
 
 async def save_unknown_question(session: AsyncSession, text: str) -> None:
-    """Unknown Question Detection: remember what the bot could not answer."""
-    norm = normalize(text)
+    """Unknown Question Detection: remember what the bot could not answer (without contact details)."""
+    norm = normalize(scrub_contacts(text))
     if not norm:
         return
     result = await session.execute(select(UnknownQuestion).where(UnknownQuestion.question == norm))
@@ -104,28 +98,36 @@ async def route_message(session: AsyncSession, user: TelegramUser, text: str) ->
     if rule_answer:
         return Reply(rule_answer, Source.RULE)
 
-    # 2. FAQ
+    # 2. Intent (training phrases) + entity extraction
+    match = await detect_intent(session, text, lang)
+    if match:
+        name = match.intent.name
+        if name == FORM_INTENT:
+            return Reply(t(lang, "form_name"), Source.INTENT, intent=name, start_form=True)
+        return Reply(match.response(), Source.INTENT, intent=name, entities=match.entities)
+
+    # 3. FAQ
     faq = await find_faq(session, text, lang)
     if faq:
         return Reply(faq.answer, Source.FAQ)
 
-    # 3. Knowledge Base (+ AI if configured)
+    # 4. Knowledge Base (+ AI if configured)
     article = await find_article(session, text, lang)
     bot = (await session.execute(select(Bot))).scalars().first()
     system_prompt = bot.system_prompt if bot else ""
     if article:
         if ai.ai_enabled():
-            answer = await ai.generate_answer(text, article.content, system_prompt, lang)
+            answer = await ai.generate_answer(text, article.content, system_prompt, lang, bot)
             if answer:
                 return Reply(answer, Source.AI)
         return Reply(article.content, Source.KNOWLEDGE)
 
-    # 4. AI without Knowledge Base context
-    answer = await ai.generate_answer(text, "", system_prompt, lang)
+    # 5. AI without Knowledge Base context
+    answer = await ai.generate_answer(text, "", system_prompt, lang, bot)
     if answer:
         return Reply(answer, Source.AI)
 
-    # 5. Fallback (+ remember the unknown question)
+    # 6. Fallback (+ remember the unknown question)
     await save_unknown_question(session, text)
     fallback_text = bot.fallback_message if bot and bot.fallback_message else t(lang, "fallback")
     return Reply(fallback_text, Source.FALLBACK, fallback=True)

@@ -6,3 +6,4 @@ _tmp = tempfile.mkdtemp()
 os.environ["DATABASE_URL"] = f"sqlite+aiosqlite:///{_tmp}/test.db"
 os.environ["BOT_TOKEN"] = ""
 os.environ["AI_API_KEY"] = ""
+os.environ["ADMIN_PASSWORD"] = "test-password"

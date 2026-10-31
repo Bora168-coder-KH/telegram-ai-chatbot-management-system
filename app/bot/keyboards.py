@@ -16,6 +16,7 @@ def main_menu(lang: str) -> ReplyKeyboardMarkup:
             [button("btn_ask"), button("btn_faq")],
             [button("btn_contact"), button("btn_support")],
             [button("btn_language"), button("btn_feedback")],
+            [button("btn_form")],
         ],
         resize_keyboard=True,
     )
@@ -63,3 +64,11 @@ def faq_keyboard(faqs: list, lang: str) -> InlineKeyboardMarkup:
     rows = [[InlineKeyboardButton(text=faq.question[:60], callback_data=f"faq:{faq.id}")] for faq in faqs]
     rows.append([InlineKeyboardButton(text=t(lang, "btn_back"), callback_data="faqback")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+def confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Yes / No under the form summary."""
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text=t(lang, "btn_yes"), callback_data="form:yes"),
+        InlineKeyboardButton(text=t(lang, "btn_no"), callback_data="form:no"),
+    ]])

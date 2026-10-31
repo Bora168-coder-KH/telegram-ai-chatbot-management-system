@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="tabs">
+  {% for key, label in filters.items() %}
+  <a href="/conversations?filter={{ key | urlencode }}" class="{{ 'active' if key == filter else '' }}">{{ label }}</a>
+  {% endfor %}
+</nav>
+{% if filter == "queue" %}<p class="muted small">Open support requests, oldest first. Assign one to yourself and reply.</p>{% endif %}
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>User</th><th>Support status</th><th>Agent</th><th>Requested</th><th>Last message</th><th>Intent</th><th></th></tr></thead>
+  <tbody>
+  {% for c in conversations %}
+  <tr>
+    <td>{{ c.id }}</td>
+    <td>{{ c.user.full_name | pii("name", show_pii) }}</td>
+    <td>{% if c.support_status %}<span class="badge support-{{ c.support_status | lower | replace(' ', '-') }}">{{ c.support_status }}</span>{% else %}<span class="muted">bot only</span>{% endif %}</td>
+    <td>{{ c.agent.admin.name if c.agent else "-" }}</td>
+    <td>{{ c.handoff_requested_at | localtime }}</td>
+    <td>{{ c.last_message_at | localtime }}</td>
+    <td>{{ c.intent or "-" }}</td>
+    <td><a class="button small" href="/conversations/{{ c.id }}">Open</a></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="muted">{{ "No open support requests." if filter == "queue" else "No conversations." }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

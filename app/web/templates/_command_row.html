@@ -1,0 +1,10 @@
+<tr id="command-{{ cmd.id }}" class="{{ 'inactive' if cmd.status != 'Active' else '' }}">
+  <td><code>/{{ cmd.name }}</code></td>
+  <td>{{ cmd.description }}</td>
+  <td>{{ cmd.response }}</td>
+  <td><span class="badge">{{ cmd.status }}</span></td>
+  <td class="actions">
+    {% if can("edit") %}<button class="small secondary" hx-post="/commands/{{ cmd.id }}/toggle" hx-target="#command-{{ cmd.id }}" hx-swap="outerHTML">{{ "Disable" if cmd.status == "Active" else "Enable" }}</button>{% endif %}
+    {% if can("delete") %}<button class="danger" hx-delete="/commands/{{ cmd.id }}" hx-target="#command-{{ cmd.id }}" hx-swap="outerHTML" hx-confirm="Delete /{{ cmd.name }}?">Delete</button>{% endif %}
+  </td>
+</tr>

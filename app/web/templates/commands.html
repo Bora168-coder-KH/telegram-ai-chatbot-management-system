@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="muted small">Built-in commands: {% for r in reserved %}<code>/{{ r }}</code> {% endfor %}. Custom commands below are answered with their response text.</p>
+{% if can("create") %}
+<form class="form" hx-post="/commands" hx-target="#command-rows" hx-swap="afterbegin" hx-on::after-request="if (event.detail.successful) this.reset()">
+  <h2>Add command</h2>
+  <div class="row">
+    <label>Command <input name="name" required placeholder="hours" pattern="/?[a-z0-9_]{1,32}"></label>
+    <label>Description <input name="description" placeholder="Show opening hours"></label>
+    <span></span>
+  </div>
+  <label>Response <textarea name="response" rows="2" required></textarea></label>
+  <button type="submit">Add command</button>
+</form>
+{% endif %}
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Description</th><th>Response</th><th>Status</th><th></th></tr></thead>
+  <tbody id="command-rows">
+    {% for cmd in commands %}{% include "_command_row.html" %}{% else %}<tr><td colspan="5" class="muted">No custom commands.</td></tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

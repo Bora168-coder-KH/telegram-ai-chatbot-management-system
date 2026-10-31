@@ -6,23 +6,45 @@
   <title>{{ active or "Admin" }} · AI Chatbot Admin</title>
   <link rel="stylesheet" href="/static/style.css">
   <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  {% block head %}{% endblock %}
 </head>
-<body>
+<body hx-headers='{"X-CSRF-Token": "{{ csrf }}"}'>
   <aside class="sidebar">
     <div class="brand">🤖 Chatbot Admin</div>
+    <button class="menu-toggle" type="button" onclick="document.body.classList.toggle('nav-open')" aria-label="Menu">☰</button>
     <nav>
       {% for label, href in nav %}
-        {% if href %}
-          <a href="{{ href }}" class="{{ 'active' if label == active else '' }}">{{ label }}</a>
-        {% else %}
-          <span class="soon" title="Not built yet - see docs/roadmap.md">{{ label }}</span>
-        {% endif %}
+        <a href="{{ href }}" class="{{ 'active' if label == active else '' }}">{{ label }}
+          {% if label == "Conversations" and queue_count %}<span class="pill" title="Open support requests">{{ queue_count }}</span>{% endif %}
+        </a>
       {% endfor %}
     </nav>
+    {% if admin %}
+    <div class="me">
+      <div>{{ admin.name }}</div>
+      <div class="muted small">{{ admin.role.name }}{% if not show_pii %} · data masked{% endif %}</div>
+      <form method="post" action="/logout">
+        <input type="hidden" name="csrf_token" value="{{ csrf }}">
+        <button type="submit" class="link">Log out</button>
+      </form>
+    </div>
+    {% endif %}
   </aside>
   <main>
     <h1>{{ active }}</h1>
+    {% if flash %}<div class="flash">{{ flash }}</div>{% endif %}
+    <div id="error-banner" class="flash error" hidden></div>
     {% block content %}{% endblock %}
   </main>
+  <script>
+    // Show server error messages from HTMX requests (e.g. 400 / 403) instead of failing silently.
+    document.body.addEventListener("htmx:responseError", function (event) {
+      var banner = document.getElementById("error-banner");
+      banner.textContent = event.detail.xhr.responseText || "Something went wrong.";
+      banner.hidden = false;
+      setTimeout(function () { banner.hidden = true; }, 6000);
+    });
+  </script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -3,15 +3,18 @@ import logging
 
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, ErrorEvent, Message
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bot import keyboards as kb
 from app.i18n import button_key, category_label, t
-from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Source, UserStatus
+from app.models import FAQ, FAQ_CATEGORIES, Bot, Feedback, Notification, Source, UserStatus
 from app.models import Command as BotCommand
+from app.models import Message as DbMessage
+from app.services import forms, handoff, logs, notifications
 from app.services import users as svc
+from app.services.notifications import NotificationType
 from app.services.router import route_message
 
 logger = logging.getLogger(__name__)
@@ -25,6 +28,9 @@ async def _load(session: AsyncSession, tg_user):
         session, tg_user.id, tg_user.username, tg_user.full_name
     )
     conversation = await svc.get_open_conversation(session, user)
+    if created:
+        # no name or username here: logs are visible to roles that see masked data
+        await logs.activity(session, "New Telegram user", record_id=user.id)
     return user, conversation, created
 
 
@@ -76,8 +82,45 @@ async def _show_faq_categories(session, target: Message, user, conversation):
 
 
 async def _human_support(session, target: Message, user, conversation):
-    await svc.request_human_support(session, conversation)
+    await handoff.request_human_support(session, conversation)
     await _send(session, target, user, conversation, t(user.language, "handoff_created"), Source.COMMAND)
+
+
+async def _record_welcome(session: AsyncSession, user):
+    """Welcome notification: stored once per user (the welcome text itself is sent by the handler)."""
+    exists = (await session.execute(
+        select(Notification.id).where(Notification.user_id == user.id,
+                                      Notification.type == NotificationType.WELCOME).limit(1)
+    )).scalar_one_or_none()
+    if exists is None:
+        notifications.record(session, user, NotificationType.WELCOME, t(user.language, "welcome"))
+        await session.commit()
+
+
+async def _send_form_reply(session, target: Message, user, conversation, reply: forms.FormReply):
+    markup = kb.confirm_keyboard(user.language) if reply.confirm else None
+    if reply.finished:
+        markup = kb.main_menu(user.language)
+    await _send(session, target, user, conversation, reply.text, Source.COMMAND, markup)
+
+
+async def _start_form(session, target: Message, user, conversation):
+    reply = await forms.start_form(session, conversation, user.language)
+    await _send_form_reply(session, target, user, conversation, reply)
+
+
+@router.errors()
+async def on_error(event: ErrorEvent):
+    """Error Log: save the exception, and tell the user something went wrong."""
+    logger.exception("handler error", exc_info=event.exception)
+    await logs.error("bot handler", event.exception, details=str(event.update.update_id))
+    message = event.update.message or (event.update.callback_query and event.update.callback_query.message)
+    if isinstance(message, Message):
+        try:
+            await message.answer(t("en", "error") + "\n" + t("km", "error"))
+        except Exception:
+            pass
+    return True
 
 
 # ---- commands ----------------------------------------------------------------
@@ -93,6 +136,7 @@ async def cmd_start(message: Message, session: AsyncSession):
                     Source.COMMAND, kb.language_keyboard())
     else:
         await _show_main_menu(session, message, user, conversation, "welcome")
+        await _record_welcome(session, user)
 
 
 @router.message(Command("help"))
@@ -116,6 +160,18 @@ async def cmd_menu(message: Message, session: AsyncSession):
         return
     await svc.save_message(session, conversation, user, "incoming", message.text)
     await _show_main_menu(session, message, user, conversation)
+
+
+@router.message(Command("cancel"))
+async def cmd_cancel(message: Message, session: AsyncSession):
+    user, conversation, _ = await _load(session, message.from_user)
+    if not await _allowed(session, user, message):
+        return
+    if not message.text:
+        return
+    await svc.save_message(session, conversation, user, "incoming", message.text)
+    reply = await forms.cancel_form(session, conversation, user.language)
+    await _send_form_reply(session, message, user, conversation, reply)
 
 
 @router.message(F.text.startswith("/"))
@@ -166,6 +222,8 @@ async def on_menu_button(message: Message, session: AsyncSession):
     elif key == "btn_feedback":
         await _send(session, message, user, conversation, t(lang, "feedback_prompt"), Source.COMMAND,
                     kb.rating_keyboard())
+    elif key == "btn_form":
+        await _start_form(session, message, user, conversation)
 
 
 # ---- callback queries (Inline Keyboard) ---------------------------------------
@@ -182,6 +240,7 @@ async def on_language(callback: CallbackQuery, session: AsyncSession):
     await callback.answer()
     await callback.message.edit_reply_markup(reply_markup=None)
     await _show_main_menu(session, callback.message, user, conversation, "welcome")
+    await _record_welcome(session, user)
 
 
 @router.callback_query(F.data.startswith("faqcat:"))
@@ -268,6 +327,35 @@ async def on_menu_callback(callback: CallbackQuery, session: AsyncSession):
         await _human_support(session, callback.message, user, conversation)
 
 
+@router.callback_query(F.data.startswith("form:"))
+async def on_form_confirm(callback: CallbackQuery, session: AsyncSession):
+    """Yes / No under the form summary."""
+    if not isinstance(callback.message, Message):
+        await callback.answer()
+        return
+    user, conversation, _ = await _load(session, callback.from_user)
+    await callback.answer()
+    await callback.message.edit_reply_markup(reply_markup=None)
+    if conversation.session_step != "confirm":
+        return  # old button: the form was already sent or cancelled
+    if callback.data == "form:yes":
+        reply = await forms.submit_form(session, conversation, user, user.language)
+    else:
+        reply = await forms.cancel_form(session, conversation, user.language)
+    await _send_form_reply(session, callback.message, user, conversation, reply)
+
+
+async def _tell_agent_waiting(session, message: Message, user, conversation):
+    """Say "passed to the agent" once, not after every message."""
+    waiting = t(user.language, "handoff_waiting")
+    last = (await session.execute(
+        select(DbMessage).where(DbMessage.conversation_id == conversation.id, DbMessage.direction == "outgoing")
+        .order_by(DbMessage.id.desc()).limit(1)
+    )).scalar_one_or_none()
+    if last is None or last.content != waiting:
+        await _send(session, message, user, conversation, waiting, Source.COMMAND)
+
+
 # ---- normal messages ----------------------------------------------------------
 @router.message(F.text)
 async def on_text(message: Message, session: AsyncSession):
@@ -278,7 +366,22 @@ async def on_text(message: Message, session: AsyncSession):
     if not message.text:
         return
     await svc.save_message(session, conversation, user, "incoming", message.text)
+    if handoff.human_mode(conversation):  # an agent is handling it: no automatic answer
+        await _tell_agent_waiting(session, message, user, conversation)
+        return
+    if forms.in_form(conversation):  # the user is answering a form step
+        form_reply = await forms.handle_form_input(session, conversation, user, message.text)
+        await _send_form_reply(session, message, user, conversation, form_reply)
+        return
     reply = await route_message(session, user, message.text)
+    if reply.intent:
+        conversation.intent = reply.intent
+        if reply.entities:
+            conversation.context = {**(conversation.context or {}), "entities": reply.entities}
+        await session.commit()
+    if reply.start_form:
+        await _start_form(session, message, user, conversation)
+        return
     markup = kb.fallback_keyboard(user.language) if reply.fallback else kb.feedback_keyboard
     await _send(session, message, user, conversation, reply.text, reply.source, markup)
 

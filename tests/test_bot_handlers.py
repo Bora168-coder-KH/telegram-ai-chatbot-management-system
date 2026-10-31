@@ -120,3 +120,26 @@ def test_faq_menu_shows_categories_then_questions(monkeypatch):
             assert rows[-1][0].callback_data == "faqback"
 
     asyncio.run(scenario())
+
+
+def test_media_messages_are_stored_and_answered():
+    async def scenario():
+        await init_db()
+        async with SessionLocal() as session:
+            await seed_defaults(session)
+            base = dict(text=None, photo=None, document=None, voice=None, location=None)
+            photo = SimpleNamespace(**{**base, "photo": [SimpleNamespace(file_id="small"), SimpleNamespace(file_id="big")]},
+                                    from_user=SimpleNamespace(id=666, username="m", full_name="Media"), answer=AsyncMock())
+            place = SimpleNamespace(**{**base, "location": SimpleNamespace(latitude=11.55, longitude=104.92)},
+                                    from_user=photo.from_user, answer=AsyncMock())
+            other = SimpleNamespace(**base, from_user=photo.from_user, answer=AsyncMock())
+            await handlers.on_media(photo, session)
+            await handlers.on_media(place, session)
+            await handlers.on_unsupported(other, session)
+            stored = (await session.execute(
+                select(DbMessage.message_type, DbMessage.content).where(DbMessage.direction == "incoming")
+                .order_by(DbMessage.id.desc()).limit(3))).all()
+            return photo.answer.call_args.args[0], other.answer.call_args.args[0], stored
+    photo_reply, other_reply, stored = asyncio.run(scenario())
+    assert "image" in photo_reply and "cannot process" in other_reply
+    assert ("image", "big") in stored and ("location", "11.55,104.92") in stored and ("unsupported", "") in stored

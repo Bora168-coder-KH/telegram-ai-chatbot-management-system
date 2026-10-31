@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>{% endblock %}
 {% block content %}
 <section class="cards">
   {% for label, value in [
@@ -20,22 +21,68 @@
 
 <h2>KPIs</h2>
 <section class="cards">
-  <div class="card"><div class="value">{{ stats.resolution_rate }}%</div><div class="label">Resolution Rate</div></div>
+  <div class="card" title="Conversations resolved by the bot or by an agent ({{ stats.resolved_conversations }} of {{ stats.counted_conversations }}). See services/stats.py for the definition.">
+    <div class="value">{{ stats.resolution_rate }}%</div><div class="label">Resolution Rate</div></div>
+  <div class="card" title="Incoming questions that got a non-fallback answer">
+    <div class="value">{{ stats.answer_rate }}%</div><div class="label">Bot Answer Rate</div></div>
   <div class="card"><div class="value">{{ stats.ai_answer_rate }}%</div><div class="label">AI Answer Rate</div></div>
   <div class="card"><div class="value">{{ stats.fallback_rate }}%</div><div class="label">Fallback Rate</div></div>
   <div class="card"><div class="value">{{ stats.handoff_rate }}%</div><div class="label">Human Handoff Rate</div></div>
   <div class="card"><div class="value">{{ stats.satisfaction if stats.satisfaction is not none else "-" }}</div><div class="label">Satisfaction (out of 5)</div></div>
 </section>
 
+<h2>Last 14 days</h2>
+<section class="charts">
+  <div class="chart-box"><h3>User growth</h3><canvas id="growth"></canvas></div>
+  <div class="chart-box"><h3>Incoming vs outgoing messages</h3><canvas id="messages"></canvas></div>
+  <div class="chart-box"><h3>Answers by source</h3><canvas id="sources"></canvas></div>
+  <div class="chart-box"><h3>Popular questions</h3><canvas id="popular"></canvas></div>
+</section>
+
 <h2>Top unanswered questions</h2>
 {% if unknown %}
 <table>
-  <thead><tr><th>Question</th><th>Times asked</th></tr></thead>
+  <thead><tr><th>Question</th><th>Times asked</th><th>Last asked</th><th></th></tr></thead>
   <tbody>
-  {% for q in unknown %}<tr><td>{{ q.question }}</td><td>{{ q.frequency }}</td></tr>{% endfor %}
+  {% for q in unknown %}
+  <tr id="unknown-{{ q.id }}">
+    <td>{{ q.question }}</td><td>{{ q.frequency }}</td><td>{{ q.last_asked_at | localtime }}</td>
+    <td class="actions">
+      {% if can("create") %}<a class="button small" href="/faq?question={{ q.question | urlencode }}">Add FAQ</a>{% endif %}
+      {% if can("train") %}<button class="small secondary" hx-post="/unknown/{{ q.id }}/resolve" hx-target="#unknown-{{ q.id }}" hx-swap="outerHTML">Mark done</button>{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
   </tbody>
 </table>
 {% else %}
 <p class="muted">Nothing yet. Questions the bot cannot answer will appear here so you can add FAQs or articles.</p>
 {% endif %}
+
+<script id="chart-data" type="application/json">{{ charts | tojson }}</script>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  if (!window.Chart) return;
+  var data = JSON.parse(document.getElementById("chart-data").textContent);
+  var css = getComputedStyle(document.documentElement);
+  var brand = css.getPropertyValue("--brand").trim() || "#0e7c86";
+  var accent = css.getPropertyValue("--accent").trim() || "#e07a2f";
+  var palette = ["#0e7c86", "#e07a2f", "#5b6abf", "#2e9e5b", "#c0392b", "#8e6bb8", "#b0883a", "#6b7686"];
+  var opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } };
+  new Chart(document.getElementById("growth"), { type: "line", options: opts, data: { labels: data.labels, datasets: [
+    { label: "Total users", data: data.total_users, borderColor: brand, backgroundColor: brand, tension: .3 },
+    { label: "New users", data: data.new_users, borderColor: accent, backgroundColor: accent, tension: .3 } ] } });
+  new Chart(document.getElementById("messages"), { type: "bar", options: opts, data: { labels: data.labels, datasets: [
+    { label: "Incoming", data: data.incoming, backgroundColor: brand },
+    { label: "Outgoing", data: data.outgoing, backgroundColor: accent } ] } });
+  new Chart(document.getElementById("sources"), { type: "doughnut", options: opts, data: {
+    labels: Object.keys(data.sources), datasets: [{ data: Object.values(data.sources), backgroundColor: palette }] } });
+  new Chart(document.getElementById("popular"), { type: "bar",
+    options: Object.assign({}, opts, { indexAxis: "y", plugins: { legend: { display: false } } }), data: {
+    labels: data.popular_questions.map(function (q) { return q.question.length > 40 ? q.question.slice(0, 40) + "…" : q.question; }),
+    datasets: [{ label: "Times asked", data: data.popular_questions.map(function (q) { return q.count; }), backgroundColor: brand }] } });
+})();
+</script>
 {% endblock %}

@@ -4,6 +4,7 @@ Each rule is (keywords, {language: response}). If any keyword appears in the
 user's message, the response is sent. Add your own rules here, or move them to
 the database later so admins can edit them from the dashboard.
 """
+from app.services.text import normalize
 
 RULES: list[tuple[tuple[str, ...], dict[str, str]]] = [
     (
@@ -18,7 +19,7 @@ RULES: list[tuple[tuple[str, ...], dict[str, str]]] = [
 
 
 def match_rule(text: str, language: str) -> str | None:
-    lowered = text.lower()
+    lowered = normalize(text)  # "Hello," -> "hello"
     words = set(lowered.split())
     for keywords, responses in RULES:
         for keyword in keywords:
