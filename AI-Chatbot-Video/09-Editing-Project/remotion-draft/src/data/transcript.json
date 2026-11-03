@@ -1,0 +1,211 @@
+{
+ "sokha": [
+  {
+   "user": "/start",
+   "bot": [
+    {
+     "text": "Please choose your language:",
+     "buttons": [
+      [
+       "English",
+       "ខ្មែរ"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "tap": "ខ្មែរ",
+   "bot": [
+    {
+     "text": "សូមស្វាគមន៍! ខ្ញុំជាជំនួយការ AI។ អ្នកអាចសួរសំណួរ ឬប្រើម៉ឺនុយខាងក្រោម។",
+     "buttons": [
+      [
+       "❓ សួរសំណួរ",
+       "📚 FAQ"
+      ],
+      [
+       "📞 ទំនាក់ទំនង",
+       "🧑‍💼 ជំនួយពីមនុស្ស"
+      ],
+      [
+       "🌐 ភាសា",
+       "⭐ មតិកែលម្អ"
+      ],
+      [
+       "📝 ផ្ញើសំណើ"
+      ]
+     ],
+     "kind": "reply"
+    }
+   ],
+   "toast": []
+  },
+  {
+   "user": "តើចុះឈ្មោះចូលរៀន ត្រូវការឯកសារអ្វីខ្លះ?",
+   "bot": [
+    {
+     "text": "សូមយកអត្តសញ្ញាណប័ណ្ណ ឬលិខិតឆ្លងដែន រូបថត ១ សន្លឹក (៤x៦) និងវិញ្ញាបនបត្រចុងក្រោយរបស់អ្នក។",
+     "buttons": [
+      [
+       "👍",
+       "👎"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "tap": "👍",
+   "bot": [],
+   "toast": [
+    "អរគុណសម្រាប់មតិកែលម្អរបស់អ្នក!"
+   ]
+  },
+  {
+   "tap": "English",
+   "bot": [
+    {
+     "text": "Welcome! I am an AI assistant. Ask me a question or use the menu below.",
+     "buttons": [
+      [
+       "❓ Ask a Question",
+       "📚 FAQ"
+      ],
+      [
+       "📞 Contact",
+       "🧑‍💼 Human Support"
+      ],
+      [
+       "🌐 Language",
+       "⭐ Feedback"
+      ],
+      [
+       "📝 Send a Request"
+      ]
+     ],
+     "kind": "reply"
+    }
+   ],
+   "toast": []
+  },
+  {
+   "user": "What are the required documents for registration?",
+   "bot": [
+    {
+     "text": "Bring your ID card or passport, one photo (4x6), and your latest certificate.",
+     "buttons": [
+      [
+       "👍",
+       "👎"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "user": "I want to book an appointment on 2026-12-15",
+   "bot": [
+    {
+     "text": "Thank you! We noted your appointment request for 2026-12-15. Our team will confirm it soon. If the date shows '-', please send it as 2026-11-02 or 02/11/2026.",
+     "buttons": [
+      [
+       "👍",
+       "👎"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "user": "Is there a bus to campus?",
+   "bot": [
+    {
+     "text": "Sorry, I did not understand your question. Please rephrase it, open the menu, or ask for human support.",
+     "buttons": [
+      [
+       "Rephrase",
+       "Main Menu",
+       "Human Support"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "tap": "Human Support",
+   "bot": [
+    {
+     "text": "Your request was sent to our support team. An agent will reply here soon.",
+     "buttons": [],
+     "kind": "inline"
+    }
+   ],
+   "toast": []
+  }
+ ],
+ "student_b": [
+  {
+   "user": "/start",
+   "bot": [
+    {
+     "text": "Please choose your language:",
+     "buttons": [
+      [
+       "English",
+       "ខ្មែរ"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  },
+  {
+   "tap": "English",
+   "bot": [
+    {
+     "text": "Welcome! I am an AI assistant. Ask me a question or use the menu below.",
+     "buttons": [
+      [
+       "❓ Ask a Question",
+       "📚 FAQ"
+      ],
+      [
+       "📞 Contact",
+       "🧑‍💼 Human Support"
+      ],
+      [
+       "🌐 Language",
+       "⭐ Feedback"
+      ],
+      [
+       "📝 Send a Request"
+      ]
+     ],
+     "kind": "reply"
+    }
+   ],
+   "toast": []
+  },
+  {
+   "user": "Is there a shuttle bus to the campus?",
+   "bot": [
+    {
+     "text": "Yes. A free campus bus leaves the city stop every hour from 7:00 to 17:00. (Demo answer)",
+     "buttons": [
+      [
+       "👍",
+       "👎"
+      ]
+     ],
+     "kind": "inline"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,242 @@
+{
+ "login": {
+  "form": [
+   723,
+   386,
+   475,
+   280
+  ]
+ },
+ "dashboard-top": {
+  "cards": [
+   315,
+   109,
+   1420,
+   238
+  ]
+ },
+ "dashboard-charts": {},
+ "dashboard-unanswered": {
+  "row": [
+   316,
+   511,
+   1419,
+   59
+  ],
+  "addfaq": [
+   1309,
+   524,
+   92,
+   33
+  ]
+ },
+ "nav-conversations": {
+  "nav": [
+   0,
+   173,
+   275,
+   50
+  ]
+ },
+ "conversations": {
+  "row": [
+   316,
+   247,
+   1419,
+   59
+  ]
+ },
+ "conversation-start": {},
+ "conversation-top": {
+  "detected": [
+   1356,
+   679,
+   358,
+   48
+  ]
+ },
+ "conversation-detected": {
+  "detected": [
+   1356,
+   679,
+   358,
+   48
+  ]
+ },
+ "conversation-reply-typed": {
+  "box": [
+   1356,
+   460,
+   358,
+   163
+  ],
+  "send": [
+   1356,
+   578,
+   136,
+   45
+  ]
+ },
+ "conversation-reply-sent": {
+  "resolved": [
+   1450,
+   370,
+   115,
+   33
+  ]
+ },
+ "conversation-resolved": {
+  "status": [
+   1427,
+   219,
+   85,
+   24
+  ]
+ },
+ "dashboard-addfaq": {
+  "addfaq": [
+   1309,
+   524,
+   92,
+   33
+  ]
+ },
+ "faq-prefilled": {
+  "question": [
+   339,
+   191,
+   1373,
+   43
+  ]
+ },
+ "faq-filled": {
+  "answer": [
+   339,
+   266,
+   1373,
+   83
+  ],
+  "keywords": [
+   1040,
+   386,
+   671,
+   43
+  ],
+  "add": [
+   339,
+   519,
+   117,
+   45
+  ]
+ },
+ "faq-added": {
+  "row": [
+   316,
+   726,
+   1419,
+   90
+  ]
+ },
+ "faq-page": {
+  "form": [
+   25,
+   12505,
+   225,
+   36
+  ],
+  "toggle": [
+   1548,
+   739,
+   82,
+   33
+  ]
+ },
+ "broadcast-preview": {
+  "message": [
+   339,
+   191,
+   650,
+   123
+  ],
+  "audience": [
+   339,
+   351,
+   650,
+   45
+  ],
+  "send": [
+   454,
+   546,
+   188,
+   45
+  ]
+ },
+ "broadcast-history": {
+  "history": [
+   315,
+   716,
+   1420,
+   115
+  ]
+ },
+ "reports": {
+  "pdf": [
+   1112,
+   109,
+   141,
+   45
+  ],
+  "excel": [
+   950,
+   109,
+   153,
+   45
+  ]
+ },
+ "settings-roles": {
+  "roles": [
+   339,
+   73,
+   1373,
+   20
+  ]
+ },
+ "settings-new-viewer": {
+  "form": [
+   339,
+   533,
+   1373,
+   263
+  ]
+ },
+ "settings-accounts": {
+  "viewer": [
+   339,
+   437,
+   1371,
+   73
+  ]
+ },
+ "viewer-dashboard": {
+  "nav": [
+   0,
+   73,
+   275,
+   450
+  ]
+ },
+ "viewer-users": {
+  "nav": [
+   0,
+   73,
+   275,
+   450
+  ],
+  "row": [
+   316,
+   258,
+   1419,
+   50
+  ]
+ }
+}

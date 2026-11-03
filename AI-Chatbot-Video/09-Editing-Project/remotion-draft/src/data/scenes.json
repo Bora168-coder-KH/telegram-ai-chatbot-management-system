@@ -1,0 +1,1625 @@
+[
+ {
+  "id": "SC-001",
+  "ch": 1,
+  "title": "Opening title",
+  "dur": 5,
+  "start": 0.0,
+  "capKh": "AI Chatbot Management System (Telegram Bot)\nក្រុមទី ១ · សាកលវិទ្យាល័យពាណិជ្ជសាស្ត្រ អេស៊ីលីដា",
+  "capEn": "AI Chatbot Management System (Telegram Bot)\nTeam 1 · ACLEDA University of Business",
+  "subKh": [],
+  "subEn": []
+ },
+ {
+  "id": "SC-002",
+  "ch": 1,
+  "title": "Greeting and presenter",
+  "dur": 13,
+  "start": 5.0,
+  "capKh": "បញ្ញា · អ្នកធ្វើបទបង្ហាញ\nជំនាញវិទ្យាសាស្ត្រ និងវិស្វកម្មកំព្យូទ័រ",
+  "capEn": "Panhna · Presenter\nComputer Science and Engineering",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.816,
+    "text": "ជម្រាបសួរលោកគ្រូ និងសួស្តីអ្នកទាំងអស់គ្នា។"
+   },
+   {
+    "from": 3.866,
+    "to": 9.265,
+    "text": "ខ្ញុំបាទឈ្មោះ បញ្ញា ជានិស្សិតនៃសាកលវិទ្យាល័យពាណិជ្ជសាស្ត្រ អេស៊ីលីដា"
+   },
+   {
+    "from": 9.315,
+    "to": 12.55,
+    "text": "ជំនាញវិទ្យាសាស្ត្រ និងវិស្វកម្មកំព្យូទ័រ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.75,
+    "text": "Hello to our lecturer, and hello everyone."
+   },
+   {
+    "from": 3.8,
+    "to": 9.014,
+    "text": "My name is Panhna. I am a student at ACLEDA University of Business,"
+   },
+   {
+    "from": 9.064,
+    "to": 12.55,
+    "text": "majoring in Computer Science and Engineering."
+   }
+  ]
+ },
+ {
+  "id": "SC-003",
+  "ch": 1,
+  "title": "Team 1",
+  "dur": 8,
+  "start": 18.0,
+  "capKh": "ក្រុមទី ១\nបញ្ញា · បូរ៉ា · រក្សា · ម៉េងគ័ង",
+  "capEn": "Team 1\nPanhna · Bora · Raksa · Mengkuang",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.394,
+    "text": "ខ្ញុំបាទជាសមាជិកក្រុមទី ១ ដែលមានសមាជិក ៤ នាក់"
+   },
+   {
+    "from": 4.444,
+    "to": 7.55,
+    "text": "គឺ ខ្ញុំបាទ បូរ៉ា រក្សា និង ម៉េងគ័ង។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.866,
+    "text": "I am a member of Team 1. Our team has four members:"
+   },
+   {
+    "from": 4.916,
+    "to": 7.55,
+    "text": "me, Bora, Raksa, and Mengkuang."
+   }
+  ]
+ },
+ {
+  "id": "SC-004",
+  "ch": 1,
+  "title": "Project and supervisor",
+  "dur": 12,
+  "start": 26.0,
+  "capKh": "ក្រោមការណែនាំ៖ លោកគ្រូ កែវ តុងហេង\nAI Chatbot Management System (Telegram Bot)",
+  "capEn": "Supervisor: Lecturer Keo Tongheng\nAI Chatbot Management System (Telegram Bot)",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.895,
+    "text": "ថ្ងៃនេះ ពួកយើងសូមធ្វើបទបង្ហាញអំពីគម្រោងសិក្សា"
+   },
+   {
+    "from": 3.945,
+    "to": 6.651,
+    "text": "ក្រោមការណែនាំរបស់លោកគ្រូ កែវ តុងហេង។"
+   },
+   {
+    "from": 6.701,
+    "to": 11.55,
+    "text": "គម្រោងនេះមានឈ្មោះថា AI Chatbot Management System (Telegram Bot)។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.748,
+    "text": "Today, we will present our study project,"
+   },
+   {
+    "from": 3.798,
+    "to": 6.643,
+    "text": "supervised by Lecturer Keo Tongheng."
+   },
+   {
+    "from": 6.693,
+    "to": 11.55,
+    "text": "It is called the AI Chatbot Management System (Telegram Bot)."
+   }
+  ]
+ },
+ {
+  "id": "SC-005",
+  "ch": 1,
+  "title": "Purpose and welcome",
+  "dur": 14,
+  "start": 38.0,
+  "capKh": "ឆ្លើយភ្លាមៗ · សម្រាលការងារបុគ្គលិក",
+  "capEn": "Instant answers · Less repeated work",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 7.614,
+    "text": "គម្រោងនេះ ជួយឆ្លើយសំណួរដែលនិស្សិតសួរញឹកញាប់ បានភ្លាមៗ ទោះជាពេលយប់ក៏ដោយ"
+   },
+   {
+    "from": 7.664,
+    "to": 10.787,
+    "text": "ហើយជួយសម្រាលការងាររបស់បុគ្គលិក។"
+   },
+   {
+    "from": 10.837,
+    "to": 13.55,
+    "text": "សូមរីករាយទស្សនាទាំងអស់គ្នា។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 7.134,
+    "text": "This system answers students' frequent questions right away, even at night,"
+   },
+   {
+    "from": 7.184,
+    "to": 10.431,
+    "text": "and it reduces the workload of staff."
+   },
+   {
+    "from": 10.481,
+    "to": 13.55,
+    "text": "We hope you enjoy our presentation."
+   }
+  ]
+ },
+ {
+  "id": "SC-006",
+  "ch": 2,
+  "title": "Meet Sokha",
+  "dur": 10,
+  "start": 52.0,
+  "capKh": "សុខា · អ្នកដាក់ពាក្យចូលសិក្សា (តួអង្គប្រឌិត)",
+  "capEn": "Sokha · University applicant (fictional character)",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.557,
+    "text": "នេះគឺ សុខា។ នាងចង់ដាក់ពាក្យចូលសិក្សា នៅសាកលវិទ្យាល័យមួយ"
+   },
+   {
+    "from": 5.607,
+    "to": 9.55,
+    "text": "ប៉ុន្តែនាងមិនដឹងថា ត្រូវការឯកសារអ្វីខ្លះទេ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.093,
+    "text": "This is Sokha. She wants to apply to a university,"
+   },
+   {
+    "from": 5.143,
+    "to": 9.55,
+    "text": "but she does not know which documents she needs."
+   }
+  ]
+ },
+ {
+  "id": "SC-007",
+  "ch": 2,
+  "title": "Midnight message",
+  "dur": 8,
+  "start": 62.0,
+  "capKh": "00:12",
+  "capEn": "00:12",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.222,
+    "text": "នាងផ្ញើសារ ដើម្បីសួរអំពីនីតិវិធីដាក់ពាក្យ"
+   },
+   {
+    "from": 5.272,
+    "to": 7.55,
+    "text": "និងឯកសារដែលត្រូវការ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.24,
+    "text": "She sends a message to ask about the application process"
+   },
+   {
+    "from": 5.29,
+    "to": 7.55,
+    "text": "and the required documents."
+   }
+  ]
+ },
+ {
+  "id": "SC-008",
+  "ch": 2,
+  "title": "No reply at midnight",
+  "dur": 7,
+  "start": 70.0,
+  "capKh": "គ្មានចម្លើយ",
+  "capEn": "No reply",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.263,
+    "text": "ប៉ុន្តែពេលនោះ ជាពាក់កណ្ដាលអធ្រាត្រទៅហើយ។"
+   },
+   {
+    "from": 4.312,
+    "to": 6.55,
+    "text": "គ្មាននរណាឆ្លើយតបមកវិញទេ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.371,
+    "text": "But it is already midnight."
+   },
+   {
+    "from": 4.421,
+    "to": 6.55,
+    "text": "Nobody replies."
+   }
+  ]
+ },
+ {
+  "id": "SC-009",
+  "ch": 2,
+  "title": "Meet Dara",
+  "dur": 7,
+  "start": 77.0,
+  "capKh": "ដារ៉ា · បុគ្គលិកបម្រើសេវាអតិថិជន (តួអង្គប្រឌិត)",
+  "capEn": "Dara · Customer service staff (fictional character)",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.594,
+    "text": "នេះគឺ ដារ៉ា។"
+   },
+   {
+    "from": 1.644,
+    "to": 6.55,
+    "text": "គាត់ជាបុគ្គលិកផ្នែកបម្រើសេវាអតិថិជន នៅសាកលវិទ្យាល័យ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 1.772,
+    "text": "This is Dara."
+   },
+   {
+    "from": 1.822,
+    "to": 6.55,
+    "text": "He works in customer service at the university."
+   }
+  ]
+ },
+ {
+  "id": "SC-010",
+  "ch": 2,
+  "title": "A full inbox",
+  "dur": 11,
+  "start": 84.0,
+  "capKh": "សំណួរដដែលៗ",
+  "capEn": "The same questions again and again",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 7.681,
+    "text": "ព្រឹកឡើង ពេលគាត់មកដល់កន្លែងធ្វើការ គាត់ឃើញសារជាច្រើនកំពុងរង់ចាំ"
+   },
+   {
+    "from": 7.731,
+    "to": 10.55,
+    "text": "ហើយភាគច្រើន ជាសំណួរដដែលៗ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 6.315,
+    "text": "In the morning, when he arrives at work, he finds many messages waiting."
+   },
+   {
+    "from": 6.365,
+    "to": 10.55,
+    "text": "Most of them are the same questions again and again."
+   }
+  ]
+ },
+ {
+  "id": "SC-011",
+  "ch": 2,
+  "title": "Answering by hand",
+  "dur": 6,
+  "start": 95.0,
+  "capKh": "ឆ្លើយម្ដងមួយៗ",
+  "capEn": "One by one",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.771,
+    "text": "គាត់ចាប់ផ្ដើមឆ្លើយសារទាំងនោះ"
+   },
+   {
+    "from": 3.821,
+    "to": 5.55,
+    "text": "ម្ដងមួយៗ ដោយដៃ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.232,
+    "text": "He starts answering them"
+   },
+   {
+    "from": 3.282,
+    "to": 5.55,
+    "text": "one by one, by hand."
+   }
+  ]
+ },
+ {
+  "id": "SC-012",
+  "ch": 2,
+  "title": "Tired",
+  "dur": 5,
+  "start": 101.0,
+  "capKh": "",
+  "capEn": "",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.931,
+    "text": "វាចំណាយពេលយូរ"
+   },
+   {
+    "from": 1.981,
+    "to": 4.55,
+    "text": "ហើយគួរឱ្យធុញទ្រាន់ណាស់។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.452,
+    "text": "It takes a long time,"
+   },
+   {
+    "from": 2.502,
+    "to": 4.55,
+    "text": "and it is very tiring."
+   }
+  ]
+ },
+ {
+  "id": "SC-013",
+  "ch": 2,
+  "title": "The wish",
+  "dur": 8,
+  "start": 106.0,
+  "capKh": "",
+  "capEn": "",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 6.035,
+    "text": "គាត់គិតថា៖ បើមានកម្មវិធីមួយ ដែលអាចជួយឆ្លើយសំណួរដដែលៗទាំងនេះ"
+   },
+   {
+    "from": 6.085,
+    "to": 7.55,
+    "text": "ច្បាស់ជាល្អណាស់។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.195,
+    "text": "He thinks: “If only a program"
+   },
+   {
+    "from": 3.245,
+    "to": 7.55,
+    "text": "could answer these repeated questions for me.”"
+   }
+  ]
+ },
+ {
+  "id": "SC-014",
+  "ch": 3,
+  "title": "Our solution",
+  "dur": 13,
+  "start": 114.0,
+  "capKh": "Telegram Bot សម្រាប់និស្សិត · Dashboard សម្រាប់បុគ្គលិក",
+  "capEn": "Telegram bot for students · Web dashboard for staff",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.407,
+    "text": "ដូច្នេះ ពួកយើងបានបង្កើត AI Chatbot Management System (Telegram Bot)។"
+   },
+   {
+    "from": 5.457,
+    "to": 8.468,
+    "text": "វាមានពីរផ្នែក៖ Telegram Bot សម្រាប់និស្សិត"
+   },
+   {
+    "from": 8.518,
+    "to": 12.55,
+    "text": "និងផ្ទាំងគ្រប់គ្រង (Dashboard) លើវេបសាយ សម្រាប់បុគ្គលិក។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.838,
+    "text": "So, we built the AI Chatbot Management System (Telegram Bot)."
+   },
+   {
+    "from": 5.888,
+    "to": 9.9,
+    "text": "It has two parts: a Telegram bot for students,"
+   },
+   {
+    "from": 9.95,
+    "to": 12.55,
+    "text": "and a web dashboard for staff."
+   }
+  ]
+ },
+ {
+  "id": "SC-015",
+  "ch": 3,
+  "title": "Managing FAQs",
+  "dur": 9,
+  "start": 127.0,
+  "capKh": "FAQ · បង្កើត · គ្រប់គ្រង · រក្សាទុក",
+  "capEn": "FAQ · Create · Manage · Save",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.012,
+    "text": "តាមរយៈផ្ទាំងគ្រប់គ្រង បុគ្គលិកអាចបង្កើត គ្រប់គ្រង"
+   },
+   {
+    "from": 5.062,
+    "to": 8.55,
+    "text": "និងរក្សាទុកសំណួរដែលគេសួរញឹកញាប់ (FAQ)។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.408,
+    "text": "In the dashboard, staff can create, manage,"
+   },
+   {
+    "from": 4.458,
+    "to": 8.55,
+    "text": "and save frequently asked questions, or FAQs."
+   }
+  ]
+ },
+ {
+  "id": "SC-016",
+  "ch": 3,
+  "title": "Khmer and English",
+  "dur": 6,
+  "start": 136.0,
+  "capKh": "ខ្មែរ · English",
+  "capEn": "Khmer · English",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.219,
+    "text": "Bot អាចឆ្លើយសំណួរ"
+   },
+   {
+    "from": 2.269,
+    "to": 5.55,
+    "text": "ទាំងជាភាសាខ្មែរ និងភាសាអង់គ្លេស។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.094,
+    "text": "The bot can handle questions"
+   },
+   {
+    "from": 3.144,
+    "to": 5.55,
+    "text": "in both Khmer and English."
+   }
+  ]
+ },
+ {
+  "id": "SC-017",
+  "ch": 3,
+  "title": "Different words, same meaning",
+  "dur": 7,
+  "start": 142.0,
+  "capKh": "ពាក្យខុសគ្នា · ន័យដូចគ្នា",
+  "capEn": "Different words · Same meaning",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.5,
+    "text": "វាអាចយល់សំណួរដែលមានន័យដូចគ្នា"
+   },
+   {
+    "from": 3.55,
+    "to": 6.55,
+    "text": "ទោះបីជាប្រើពាក្យខុសគ្នាក៏ដោយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.038,
+    "text": "It can understand questions with the same meaning,"
+   },
+   {
+    "from": 4.088,
+    "to": 6.55,
+    "text": "even when they use different words."
+   }
+  ]
+ },
+ {
+  "id": "SC-018",
+  "ch": 3,
+  "title": "Honest when it does not know",
+  "dur": 11,
+  "start": 149.0,
+  "capKh": "មិនទាយ · បញ្ជូនទៅមនុស្ស",
+  "capEn": "No guessing · Human support",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 6.802,
+    "text": "បើវាជួបសំណួរដែលមិនអាចឆ្លើយបាន វានឹងប្រាប់ដោយត្រង់ៗ ថាវាមិនដឹង"
+   },
+   {
+    "from": 6.852,
+    "to": 10.55,
+    "text": "ហើយបញ្ជូនការសន្ទនាបន្ត ទៅកាន់មនុស្ស។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 6.221,
+    "text": "If it cannot answer a question, it says so honestly,"
+   },
+   {
+    "from": 6.271,
+    "to": 10.55,
+    "text": "and passes the conversation to a human."
+   }
+  ]
+ },
+ {
+  "id": "SC-019",
+  "ch": 3,
+  "title": "Good for both sides",
+  "dur": 9,
+  "start": 160.0,
+  "capKh": "និស្សិត៖ ចម្លើយភ្លាមៗ · បុគ្គលិក៖ ការងារដដែលៗតិចជាងមុន",
+  "capEn": "Students: instant answers · Staff: less repeated work",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.074,
+    "text": "ដូច្នេះ និស្សិតទទួលបានចម្លើយភ្លាមៗ"
+   },
+   {
+    "from": 4.124,
+    "to": 8.55,
+    "text": "ហើយបុគ្គលិកមិនចាំបាច់ឆ្លើយសំណួរដដែលៗទៀតទេ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.201,
+    "text": "So, students get answers right away,"
+   },
+   {
+    "from": 3.251,
+    "to": 8.55,
+    "text": "and staff no longer need to answer the same questions again and again."
+   }
+  ]
+ },
+ {
+  "id": "SC-020",
+  "ch": 4,
+  "title": "/start and Khmer",
+  "dur": 8,
+  "start": 169.0,
+  "capKh": "/start → ខ្មែរ",
+  "capEn": "/start → Khmer",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.737,
+    "text": "សុខាចាប់ផ្ដើមប្រើ ដោយផ្ញើ /start"
+   },
+   {
+    "from": 4.787,
+    "to": 7.55,
+    "text": "ហើយជ្រើសរើសភាសាខ្មែរ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.603,
+    "text": "Sokha starts by sending /start,"
+   },
+   {
+    "from": 4.653,
+    "to": 7.55,
+    "text": "and she chooses Khmer."
+   }
+  ]
+ },
+ {
+  "id": "SC-021",
+  "ch": 4,
+  "title": "The same question, again",
+  "dur": 7,
+  "start": 177.0,
+  "capKh": "តើចុះឈ្មោះចូលរៀន ត្រូវការឯកសារអ្វីខ្លះ?",
+  "capEn": "Which documents does she need?",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.796,
+    "text": "នាងសួរសំណួរដដែល"
+   },
+   {
+    "from": 2.846,
+    "to": 6.55,
+    "text": "ដែលនាងបានសួរកាលពីយប់មិញ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.824,
+    "text": "She asks the same question"
+   },
+   {
+    "from": 3.874,
+    "to": 6.55,
+    "text": "she asked last night."
+   }
+  ]
+ },
+ {
+  "id": "SC-022",
+  "ch": 4,
+  "title": "Instant answer",
+  "dur": 6,
+  "start": 184.0,
+  "capKh": "ចម្លើយពី FAQ",
+  "capEn": "Answer from the FAQ",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.044,
+    "text": "Bot ឆ្លើយភ្លាមៗ"
+   },
+   {
+    "from": 2.094,
+    "to": 5.55,
+    "text": "ដោយប្រើចម្លើយពី FAQ ដែលមានស្រាប់។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.614,
+    "text": "The bot answers immediately,"
+   },
+   {
+    "from": 2.664,
+    "to": 5.55,
+    "text": "using an answer from the existing FAQ."
+   }
+  ]
+ },
+ {
+  "id": "SC-023",
+  "ch": 4,
+  "title": "Feedback 👍",
+  "dur": 5,
+  "start": 190.0,
+  "capKh": "👍 មតិកែលម្អ",
+  "capEn": "👍 Feedback",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.581,
+    "text": "នាងចុច 👍"
+   },
+   {
+    "from": 1.631,
+    "to": 4.55,
+    "text": "ដើម្បីផ្ដល់មតិកែលម្អ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 1.969,
+    "text": "She taps 👍"
+   },
+   {
+    "from": 2.019,
+    "to": 4.55,
+    "text": "to give feedback."
+   }
+  ]
+ },
+ {
+  "id": "SC-024",
+  "ch": 4,
+  "title": "Switch to English",
+  "dur": 5,
+  "start": 195.0,
+  "capKh": "🌐 ភាសា → English",
+  "capEn": "🌐 Language → English",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.018,
+    "text": "នាងក៏អាចប្ដូរ"
+   },
+   {
+    "from": 2.068,
+    "to": 4.55,
+    "text": "ទៅភាសាអង់គ្លេសបានដែរ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.047,
+    "text": "She can also switch"
+   },
+   {
+    "from": 3.097,
+    "to": 4.55,
+    "text": "to English."
+   }
+  ]
+ },
+ {
+  "id": "SC-025",
+  "ch": 4,
+  "title": "Different words, still understood",
+  "dur": 11,
+  "start": 200.0,
+  "capKh": "បានរក្សាទុក៖ What documents do I need to register?\nបានសួរ៖ What are the required documents for registration?",
+  "capEn": "Saved: What documents do I need to register?\nAsked: What are the required documents for registration?",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.861,
+    "text": "នាងសួរសំណួរដដែល ប៉ុន្តែប្រើពាក្យផ្សេង។"
+   },
+   {
+    "from": 4.911,
+    "to": 10.55,
+    "text": "Bot នៅតែយល់ ទោះពាក្យខុសពីអ្វីដែលបានរក្សាទុកក៏ដោយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.917,
+    "text": "She asks the same question in different words."
+   },
+   {
+    "from": 3.967,
+    "to": 10.55,
+    "text": "The bot still understands, even though the words are not the same as the saved question."
+   }
+  ]
+ },
+ {
+  "id": "SC-026",
+  "ch": 4,
+  "title": "Capturing a date",
+  "dur": 10,
+  "start": 211.0,
+  "capKh": "កាលបរិច្ឆេទ៖ 2026-12-15 · បានរក្សាទុក",
+  "capEn": "Date: 2026-12-15 · Saved",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 6.28,
+    "text": "វាថែមទាំងអាចចាប់យក និងរក្សាទុកកាលបរិច្ឆេទ"
+   },
+   {
+    "from": 6.33,
+    "to": 9.55,
+    "text": "ក្នុងការសន្ទនាបានទៀតផង។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 7.565,
+    "text": "It can even find a date in the conversation"
+   },
+   {
+    "from": 7.615,
+    "to": 9.55,
+    "text": "and save it."
+   }
+  ]
+ },
+ {
+  "id": "SC-027",
+  "ch": 4,
+  "title": "A question the bot does not know",
+  "dur": 6,
+  "start": 221.0,
+  "capKh": "Is there a bus to campus?",
+  "capEn": "Is there a bus to campus?",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.47,
+    "text": "បន្ទាប់មក"
+   },
+   {
+    "from": 1.52,
+    "to": 5.55,
+    "text": "នាងសួរសំណួរមួយ ដែល Bot មិនដឹងចម្លើយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 0.993,
+    "text": "Next,"
+   },
+   {
+    "from": 1.043,
+    "to": 5.55,
+    "text": "she asks a question the bot does not know."
+   }
+  ]
+ },
+ {
+  "id": "SC-028",
+  "ch": 4,
+  "title": "No guessing",
+  "dur": 8,
+  "start": 227.0,
+  "capKh": "សរសេរម្ដងទៀត · ម៉ឺនុយមេ · ជំនួយពីមនុស្ស",
+  "capEn": "Rephrase · Main Menu · Human Support",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.26,
+    "text": "Bot មិនទាយចម្លើយទេ។"
+   },
+   {
+    "from": 3.31,
+    "to": 7.55,
+    "text": "វាសុំទោស ហើយផ្ដល់ជម្រើសជំនួយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.084,
+    "text": "The bot does not guess."
+   },
+   {
+    "from": 3.134,
+    "to": 7.55,
+    "text": "It says sorry, and offers help options."
+   }
+  ]
+ },
+ {
+  "id": "SC-029",
+  "ch": 4,
+  "title": "Asking for a human",
+  "dur": 9,
+  "start": 235.0,
+  "capKh": "សំណើត្រូវបានផ្ញើទៅក្រុមជំនួយ",
+  "capEn": "Request sent to the support team",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.375,
+    "text": "នាងជ្រើសរើស ជំនួយពីមនុស្ស។"
+   },
+   {
+    "from": 3.425,
+    "to": 8.55,
+    "text": "ចុចតែម្ដង សំណើរបស់នាងត្រូវបានផ្ញើទៅក្រុមជំនួយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.018,
+    "text": "She chooses Human Support."
+   },
+   {
+    "from": 3.068,
+    "to": 8.55,
+    "text": "With just one tap, her request goes to the support team."
+   }
+  ]
+ },
+ {
+  "id": "SC-030",
+  "ch": 5,
+  "title": "Next morning: login",
+  "dur": 6,
+  "start": 244.0,
+  "capKh": "ព្រឹកបន្ទាប់",
+  "capEn": "The next morning",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.15,
+    "text": "ព្រឹកបន្ទាប់"
+   },
+   {
+    "from": 2.2,
+    "to": 5.55,
+    "text": "ដារ៉ាចូលទៅក្នុងប្រព័ន្ធ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.42,
+    "text": "The next morning,"
+   },
+   {
+    "from": 2.47,
+    "to": 5.55,
+    "text": "Dara logs in to the system."
+   }
+  ]
+ },
+ {
+  "id": "SC-031",
+  "ch": 5,
+  "title": "Statistics and unanswered questions",
+  "dur": 8,
+  "start": 250.0,
+  "capKh": "ស្ថិតិ · សំណួរដែលមិនទាន់មានចម្លើយ",
+  "capEn": "Statistics · Unanswered questions",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.548,
+    "text": "គាត់ឃើញស្ថិតិ"
+   },
+   {
+    "from": 2.598,
+    "to": 7.55,
+    "text": "និងសំណួរដែល Bot មិនអាចឆ្លើយបាន។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.853,
+    "text": "He sees the statistics"
+   },
+   {
+    "from": 2.903,
+    "to": 7.55,
+    "text": "and the questions the bot could not answer."
+   }
+  ]
+ },
+ {
+  "id": "SC-032",
+  "ch": 5,
+  "title": "Sokha's request in the queue",
+  "dur": 6,
+  "start": 258.0,
+  "capKh": "ជួររង់ចាំជំនួយ",
+  "capEn": "Support queue",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.78,
+    "text": "សំណើរបស់សុខា"
+   },
+   {
+    "from": 1.83,
+    "to": 5.55,
+    "text": "កំពុងរង់ចាំក្នុងជួររបស់គាត់រួចហើយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.078,
+    "text": "Sokha's request"
+   },
+   {
+    "from": 2.128,
+    "to": 5.55,
+    "text": "is already waiting in his queue."
+   }
+  ]
+ },
+ {
+  "id": "SC-033",
+  "ch": 5,
+  "title": "The whole conversation",
+  "dur": 8,
+  "start": 264.0,
+  "capKh": "ការសន្ទនាទាំងមូល",
+  "capEn": "The whole conversation",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.07,
+    "text": "គាត់អាចមើលការសន្ទនាទាំងមូល"
+   },
+   {
+    "from": 4.12,
+    "to": 7.55,
+    "text": "រវាងសុខា និង Bot នៅទីនេះ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.753,
+    "text": "Here, he can read the whole conversation"
+   },
+   {
+    "from": 4.803,
+    "to": 7.55,
+    "text": "between Sokha and the bot."
+   }
+  ]
+ },
+ {
+  "id": "SC-034",
+  "ch": 5,
+  "title": "Reply to Telegram",
+  "dur": 8,
+  "start": 272.0,
+  "capKh": "ឆ្លើយពី Dashboard → Telegram",
+  "capEn": "Reply from the dashboard → Telegram",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.088,
+    "text": "គាត់សរសេរចម្លើយ"
+   },
+   {
+    "from": 2.138,
+    "to": 7.55,
+    "text": "ហើយចម្លើយនោះ ទៅដល់ Telegram ក្នុងទូរស័ព្ទរបស់សុខា។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.429,
+    "text": "He types a reply,"
+   },
+   {
+    "from": 2.479,
+    "to": 7.55,
+    "text": "and it arrives in Telegram on Sokha's phone."
+   }
+  ]
+ },
+ {
+  "id": "SC-035",
+  "ch": 5,
+  "title": "Marked as Resolved",
+  "dur": 6,
+  "start": 280.0,
+  "capKh": "→ Resolved (បានដោះស្រាយ)",
+  "capEn": "→ Resolved",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 1.597,
+    "text": "បន្ទាប់មក"
+   },
+   {
+    "from": 1.647,
+    "to": 5.55,
+    "text": "គាត់កំណត់សំណើនេះថា បានដោះស្រាយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 1.121,
+    "text": "Then,"
+   },
+   {
+    "from": 1.171,
+    "to": 5.55,
+    "text": "he marks the request as Resolved."
+   }
+  ]
+ },
+ {
+  "id": "SC-036",
+  "ch": 5,
+  "title": "Add FAQ — question filled in",
+  "dur": 9,
+  "start": 286.0,
+  "capKh": "Add FAQ · សំណួរបំពេញស្វ័យប្រវត្តិ",
+  "capEn": "Add FAQ · Question filled in automatically",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.602,
+    "text": "ដារ៉ាចុច Add FAQ។"
+   },
+   {
+    "from": 2.652,
+    "to": 8.55,
+    "text": "សំណួររបស់សុខា ត្រូវបានបំពេញរួចដោយស្វ័យប្រវត្តិ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 2.7,
+    "text": "Dara clicks Add FAQ."
+   },
+   {
+    "from": 2.75,
+    "to": 8.55,
+    "text": "Sokha's question is already filled in automatically."
+   }
+  ]
+ },
+ {
+  "id": "SC-037",
+  "ch": 5,
+  "title": "Type the answer and save",
+  "dur": 8,
+  "start": 295.0,
+  "capKh": "បញ្ចូលចម្លើយ → រក្សាទុក",
+  "capEn": "Type the answer → Save",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 6.219,
+    "text": "គាត់គ្រាន់តែបញ្ចូលចម្លើយ ដោយមិនចាំបាច់វាយសំណួរឡើងវិញ"
+   },
+   {
+    "from": 6.269,
+    "to": 7.55,
+    "text": "ហើយរក្សាទុក។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 6.382,
+    "text": "He only types the answer, with no need to type the question again,"
+   },
+   {
+    "from": 6.432,
+    "to": 7.55,
+    "text": "and saves it."
+   }
+  ]
+ },
+ {
+  "id": "SC-038",
+  "ch": 5,
+  "title": "Another student, different words",
+  "dur": 8,
+  "start": 303.0,
+  "capKh": "Is there a shuttle bus to the campus?",
+  "capEn": "Is there a shuttle bus to the campus?",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.365,
+    "text": "និស្សិតម្នាក់ទៀតសួរសំណួរនោះ ដោយប្រើពាក្យផ្សេង"
+   },
+   {
+    "from": 5.415,
+    "to": 7.55,
+    "text": "ហើយ Bot អាចឆ្លើយបាន។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.456,
+    "text": "Another student asks the same thing in different words,"
+   },
+   {
+    "from": 5.506,
+    "to": 7.55,
+    "text": "and the bot can answer."
+   }
+  ]
+ },
+ {
+  "id": "SC-039",
+  "ch": 5,
+  "title": "Yesterday unknown, today answered",
+  "dur": 7,
+  "start": 311.0,
+  "capKh": "ម្សិលមិញ៖ មិនមានចម្លើយ → ថ្ងៃនេះ៖ មានចម្លើយ (បុគ្គលិកបានបន្ថែម FAQ)",
+  "capEn": "Yesterday: no answer → Today: answered (staff added an FAQ)",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.065,
+    "text": "សំណួរដែល Bot មិនដឹងកាលពីម្សិលមិញ"
+   },
+   {
+    "from": 4.115,
+    "to": 6.55,
+    "text": "ថ្ងៃនេះ វាឆ្លើយបានហើយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.756,
+    "text": "The question the bot could not answer yesterday,"
+   },
+   {
+    "from": 4.806,
+    "to": 6.55,
+    "text": "it can answer today."
+   }
+  ]
+ },
+ {
+  "id": "SC-040",
+  "ch": 5,
+  "title": "Broadcast",
+  "dur": 7,
+  "start": 318.0,
+  "capKh": "Broadcast · អ្នកប្រើប្រាស់ទាំងអស់",
+  "capEn": "Broadcast · All users",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 2.302,
+    "text": "ដារ៉ាក៏អាចផ្ញើសារ"
+   },
+   {
+    "from": 2.352,
+    "to": 6.55,
+    "text": "ទៅកាន់អ្នកប្រើប្រាស់ Bot ទាំងអស់បានដែរ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.673,
+    "text": "Dara can also send a message"
+   },
+   {
+    "from": 3.723,
+    "to": 6.55,
+    "text": "to all bot users at once."
+   }
+  ]
+ },
+ {
+  "id": "SC-041",
+  "ch": 5,
+  "title": "Report export",
+  "dur": 8,
+  "start": 325.0,
+  "capKh": "Export PDF · Excel · អក្សរខ្មែរត្រឹមត្រូវ",
+  "capEn": "Export PDF · Excel · Correct Khmer text",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.104,
+    "text": "គាត់អាចទាញយករបាយការណ៍ជា PDF ឬ Excel"
+   },
+   {
+    "from": 4.154,
+    "to": 7.55,
+    "text": "ដោយអក្សរខ្មែរបង្ហាញបានត្រឹមត្រូវ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.0,
+    "text": "He can export reports as PDF or Excel,"
+   },
+   {
+    "from": 4.05,
+    "to": 7.55,
+    "text": "and Khmer text is displayed correctly."
+   }
+  ]
+ },
+ {
+  "id": "SC-042",
+  "ch": 5,
+  "title": "Account permissions",
+  "dur": 6,
+  "start": 333.0,
+  "capKh": "តួនាទី និងសិទ្ធិប្រើប្រាស់",
+  "capEn": "Roles and permissions",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 3.283,
+    "text": "គាត់ក៏អាចកំណត់សិទ្ធិប្រើប្រាស់"
+   },
+   {
+    "from": 3.333,
+    "to": 5.55,
+    "text": "សម្រាប់គណនីផ្សេងៗបានដែរ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.744,
+    "text": "He can also set the permissions"
+   },
+   {
+    "from": 3.794,
+    "to": 5.55,
+    "text": "for each account."
+   }
+  ]
+ },
+ {
+  "id": "SC-043",
+  "ch": 5,
+  "title": "The Viewer role",
+  "dur": 9,
+  "start": 339.0,
+  "capKh": "Viewer · ឈ្មោះបិទបាំង · គ្មាន Settings",
+  "capEn": "Viewer · Masked names · No Settings",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.95,
+    "text": "គណនី Viewer ឃើញតែឈ្មោះដែលបានបិទបាំង"
+   },
+   {
+    "from": 5.0,
+    "to": 8.55,
+    "text": "ហើយមិនអាចបើក Settings បានទេ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.215,
+    "text": "A Viewer account only sees masked names,"
+   },
+   {
+    "from": 5.265,
+    "to": 8.55,
+    "text": "and it cannot open Settings."
+   }
+  ]
+ },
+ {
+  "id": "SC-044",
+  "ch": 6,
+  "title": "Before and after",
+  "dur": 10,
+  "start": 348.0,
+  "capKh": "",
+  "capEn": "",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.971,
+    "text": "ឥឡូវនេះ សុខាទទួលបានចម្លើយ ទោះជាពាក់កណ្ដាលអធ្រាត្រក៏ដោយ"
+   },
+   {
+    "from": 6.021,
+    "to": 9.55,
+    "text": "ហើយដារ៉ា លែងចម្លងចម្លើយដដែលៗទៀតហើយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.181,
+    "text": "Now, Sokha gets answers even at midnight,"
+   },
+   {
+    "from": 4.231,
+    "to": 9.55,
+    "text": "and Dara no longer copies the same answers again and again."
+   }
+  ]
+ },
+ {
+  "id": "SC-045",
+  "ch": 6,
+  "title": "Test results",
+  "dur": 13,
+  "start": 358.0,
+  "capKh": "សំណួរសាកល្បង ៥៧ · ត្រូវ ៥៣ · មិនត្រូវ ៤ · ≈ ៩២,៩៨%",
+  "capEn": "57 test questions · 53 correct · 4 incorrect · ≈ 92.98%",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.884,
+    "text": "ក្នុងការសាកល្បងជាមួយសំណួរ ៥៧ ដែលក្រុមយើងបានសរសេរ"
+   },
+   {
+    "from": 4.934,
+    "to": 9.317,
+    "text": "Bot ឆ្លើយត្រូវ ៥៣ សំណួរ និងមិនត្រឹមត្រូវ ៤ សំណួរ"
+   },
+   {
+    "from": 9.367,
+    "to": 12.55,
+    "text": "ពោលគឺ ត្រឹមត្រូវប្រហែល ៩២,៩៨ ភាគរយ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.432,
+    "text": "We tested the bot with 57 questions that our team wrote."
+   },
+   {
+    "from": 5.482,
+    "to": 9.258,
+    "text": "It answered 53 correctly and 4 incorrectly."
+   },
+   {
+    "from": 9.308,
+    "to": 12.55,
+    "text": "That is about 92.98 percent accuracy."
+   }
+  ]
+ },
+ {
+  "id": "SC-046",
+  "ch": 6,
+  "title": "What the test means",
+  "dur": 10,
+  "start": 371.0,
+  "capKh": "ប្រភព៖ សំណួរសាកល្បងរបស់ក្រុម ៥៧ (អង់គ្លេស ៤២ · ខ្មែរ ១៥)",
+  "capEn": "Source: our team's 57 test questions (42 English · 15 Khmer)",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.052,
+    "text": "លទ្ធផលនេះ មកពីសំណួរសាកល្បងរបស់ក្រុមយើងផ្ទាល់"
+   },
+   {
+    "from": 5.102,
+    "to": 9.55,
+    "text": "មិនមែនមកពីការវាយតម្លៃសាធារណៈទ្រង់ទ្រាយធំទេ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 5.73,
+    "text": "These results come from our own test questions,"
+   },
+   {
+    "from": 5.78,
+    "to": 9.55,
+    "text": "not from a large public benchmark."
+   }
+  ]
+ },
+ {
+  "id": "SC-047",
+  "ch": 6,
+  "title": "Next step",
+  "dur": 9,
+  "start": 381.0,
+  "capKh": "បន្ទាប់៖ ដាក់ឱ្យដំណើរការ → សាកល្បងជាមួយនិស្សិតពិត",
+  "capEn": "Next: Deploy → Test with real students",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 5.571,
+    "text": "ជំហានបន្ទាប់ យើងនឹងដាក់ AI Chatbot ឱ្យដំណើរការជាក់ស្ដែង"
+   },
+   {
+    "from": 5.621,
+    "to": 8.55,
+    "text": "ហើយសាកល្បងជាមួយនិស្សិតពិតប្រាកដ។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 4.132,
+    "text": "Next, we will deploy the AI chatbot"
+   },
+   {
+    "from": 4.182,
+    "to": 8.55,
+    "text": "and test it with real university students."
+   }
+  ]
+ },
+ {
+  "id": "SC-048",
+  "ch": 6,
+  "title": "Thank you",
+  "dur": 10,
+  "start": 390.0,
+  "capKh": "សូមអរគុណ",
+  "capEn": "Thank you",
+  "subKh": [
+   {
+    "from": 0.5,
+    "to": 4.586,
+    "text": "ការធ្វើបទបង្ហាញរបស់ពួកយើងត្រូវបានបញ្ចប់។"
+   },
+   {
+    "from": 4.636,
+    "to": 9.55,
+    "text": "សូមអរគុណលោកគ្រូ និងអ្នកទាំងអស់គ្នា ដែលបានទស្សនា។"
+   }
+  ],
+  "subEn": [
+   {
+    "from": 0.5,
+    "to": 3.898,
+    "text": "This is the end of our presentation."
+   },
+   {
+    "from": 3.948,
+    "to": 9.55,
+    "text": "Thank you, Lecturer, and thank you, everyone, for watching."
+   }
+  ]
+ },
+ {
+  "id": "SC-049",
+  "ch": 6,
+  "title": "End card",
+  "dur": 6,
+  "start": 400.0,
+  "capKh": "ក្រុមទី ១៖ បញ្ញា · បូរ៉ា · រក្សា · ម៉េងគ័ង\nក្រោមការណែនាំ៖ លោកគ្រូ កែវ តុងហេង\nសាកលវិទ្យាល័យពាណិជ្ជសាស្ត្រ អេស៊ីលីដា\nសុខា និង ដារ៉ា ជាតួអង្គប្រឌិត។",
+  "capEn": "Team 1: Panhna · Bora · Raksa · Mengkuang\nSupervisor: Lecturer Keo Tongheng\nACLEDA University of Business\nSokha and Dara are fictional characters.",
+  "subKh": [],
+  "subEn": []
+ }
+]

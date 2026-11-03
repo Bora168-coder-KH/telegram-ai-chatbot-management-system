@@ -1,0 +1,28 @@
+{
+  "name": "ai-chatbot-video-draft",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:kh": "remotion render src/index.ts VideoKH out/AI-Chatbot-Video-KH.mp4 --codec=h264 --crf=20",
+    "render:en": "remotion render src/index.ts VideoEN out/AI-Chatbot-Video-EN.mp4 --codec=h264 --crf=20"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/kantumruy-pro": "^5.1.0",
+    "@fontsource/newsreader": "^5.1.0",
+    "@remotion/cli": "^4.0.300",
+    "@remotion/fonts": "^4.0.300",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.300"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "typescript": "^5.6.3"
+  },
+  "private": true
+}

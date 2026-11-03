@@ -41,6 +41,13 @@ I kept every idea from the original script. I changed a few words only where the
 - [ ] Keep the order: after Sokha asks for human support, the bot waits for the agent and does not answer her until Dara marks the request Resolved.
 - [ ] Do not use "Do you have a dormitory?" as the unknown question. The team's test found the bot answers it wrongly.
 - [ ] The date in SC-026 must still be in the future on the day you show the video.
+- [ ] **Fix the Broadcast page bug before recording SC-040.** Found while making the draft video: in a real browser, the
+      message box clears itself about 0.4 s after you stop typing, and the "Preview" button asks "Send this broadcast?".
+      Cause: in `app/web/templates/broadcast.html` the form's `hx-on::after-request` runs after *every* request inside
+      the form (also the live preview), and the form's `hx-confirm` is inherited by the preview elements.
+      One fix: add `hx-disinherit="hx-confirm"` to the `<form>`, and change the reset condition to
+      `if (event.detail.successful && event.detail.elt === this) { … }`. The broadcast service itself works
+      (the draft video shows a real 8 / 8 delivery).
 
 ## D. Privacy and honesty
 
