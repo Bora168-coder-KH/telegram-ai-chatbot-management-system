@@ -1,0 +1,10 @@
+# Large media stays out of Git
+*.mp4
+*.mov
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.drp
+*.capcut
+__pycache__/
