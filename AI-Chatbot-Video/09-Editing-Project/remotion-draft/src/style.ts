@@ -1,5 +1,5 @@
-import { loadFont } from '@remotion/fonts';
-import { staticFile } from 'remotion';
+import { continueRender, delayRender } from 'remotion';
+import { FONT_CSS } from './fontData';
 
 export const C = {
   bg: '#FAF9F6', card: '#FFFFFF', card2: '#F2EFE9', text: '#111827', sub: '#4B5563', border: '#E5E7EB',
@@ -8,19 +8,18 @@ export const C = {
 export const FPS = 25;
 export type Lang = 'kh' | 'en';
 
-const fonts: [string, string, string][] = [
-  ['Kantumruy', 'kantumruy-pro-khmer-400-normal.woff2', '400'],
-  ['Kantumruy', 'kantumruy-pro-khmer-600-normal.woff2', '600'],
-  ['Kantumruy', 'kantumruy-pro-khmer-700-normal.woff2', '700'],
-  ['Inter', 'inter-latin-400-normal.woff2', '400'],
-  ['Inter', 'inter-latin-500-normal.woff2', '500'],
-  ['Inter', 'inter-latin-600-normal.woff2', '600'],
-  ['Inter', 'inter-latin-700-normal.woff2', '700'],
-  ['Newsreader', 'newsreader-latin-500-normal.woff2', '500'],
-  ['Newsreader', 'newsreader-latin-600-normal.woff2', '600'],
-];
-for (const [family, file, weight] of fonts) {
-  loadFont({ family, url: staticFile('fonts/' + file), weight });
+// Fonts are embedded (src/fontData.ts). Wait for them, but never longer than 6 s.
+if (typeof document !== 'undefined' && !document.getElementById('embedded-fonts')) {
+  const el = document.createElement('style');
+  el.id = 'embedded-fonts';
+  el.textContent = FONT_CSS;
+  document.head.appendChild(el);
+  const handle = delayRender('embedded fonts', { timeoutInMilliseconds: 60000 });
+  let done = false;
+  const finish = () => { if (!done) { done = true; continueRender(handle); } };
+  Promise.all(['400 20px Kantumruy', '600 20px Kantumruy', '700 20px Kantumruy', '400 20px Inter', '500 20px Inter', '600 20px Inter', '700 20px Inter', '500 20px Newsreader', '600 20px Newsreader']
+    .map((f) => document.fonts.load(f, f.includes('Kantumruy') ? 'ក' : 'A'))).then(finish, finish);
+  setTimeout(finish, 6000);
 }
 
 // Latin text uses Inter; Khmer letters fall back to Kantumruy Pro.
