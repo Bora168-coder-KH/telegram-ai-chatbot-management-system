@@ -8,3 +8,7 @@
 *.drp
 *.capcut
 __pycache__/
+
+# Keep the two final draft videos in the project
+!10-Final-Exports/AI-Chatbot-Video-KH.mp4
+!10-Final-Exports/AI-Chatbot-Video-EN.mp4

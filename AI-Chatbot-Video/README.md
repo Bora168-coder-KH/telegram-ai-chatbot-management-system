@@ -38,7 +38,7 @@ AI-Chatbot-Video/
   10-Final-Exports/         scenes/SC-0XX-KH.mp4, SC-0XX-EN.mp4, full videos
 ```
 
-Video and audio files are not stored in Git (see `.gitignore`). Keep them on a shared drive.
+The two draft videos are saved in `10-Final-Exports/` (`AI-Chatbot-Video-KH.mp4`, `AI-Chatbot-Video-EN.mp4`). Other video and audio files are not stored in Git (see `.gitignore`); keep them on a shared drive.
 
 ## Changing the text later
 
