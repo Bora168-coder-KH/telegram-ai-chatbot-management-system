@@ -1,9 +1,9 @@
-import React from 'react';
-import { AbsoluteFill, Sequence, useCurrentFrame } from 'remotion';
+import React, { useEffect, useState } from 'react';
+import { AbsoluteFill, Sequence, continueRender, delayRender, useCurrentFrame } from 'remotion';
 import { SCENES, SCENE_LIST } from './scenes/Scenes';
 import { Subtitles } from './ui/Text';
 import { ramp } from './anim';
-import { Lang, C } from './style';
+import { Lang, C, FONT_PROBES } from './style';
 
 // Fades to and from black at chapter breaks (from the storyboard transitions).
 const FADE_IN_BLACK = new Set(['SC-001', 'SC-006', 'SC-030', 'SC-044']);
@@ -17,7 +17,22 @@ const Fades: React.FC<{ id: string; dur: number }> = ({ id, dur }) => {
   return o > 0 ? <AbsoluteFill style={{ background: '#000', opacity: o, zIndex: 100 }} /> : null;
 };
 
-export const Video: React.FC<{ lang: Lang; only?: string }> = ({ lang, only }) => (
+/** Wait until the embedded fonts are ready (Remotion's documented pattern for fonts). */
+const useFonts = () => {
+  const [handle] = useState(() => delayRender('fonts', { timeoutInMilliseconds: 20000 }));
+  useEffect(() => {
+    Promise.all(FONT_PROBES.map((f) => document.fonts.load(f, f.includes('Kantumruy') ? 'ក' : 'A')))
+      .then(() => document.fonts.ready)
+      .finally(() => continueRender(handle));
+  }, [handle]);
+};
+
+export const Video: React.FC<{ lang: Lang; only?: string }> = (props) => {
+  useFonts();
+  return <VideoInner {...props} />;
+};
+
+const VideoInner: React.FC<{ lang: Lang; only?: string }> = ({ lang, only }) => (
   <AbsoluteFill style={{ background: C.bg }}>
     {SCENE_LIST.filter((s) => !only || s.id === only).map((s) => {
       const Scene = SCENES[s.id];
