@@ -21,6 +21,9 @@ from app.services.text import keyword_list, normalize  # noqa: F401  (normalize 
 from app.services.validators import scrub_contacts
 
 FAQ_MIN_SCORE = 0.6
+# FAQs given to the AI (closest first) when no FAQ matched well enough. About 72 per language today
+# (~2-3k tokens), so the AI sees all of them and can match a question with completely different words.
+SIMILAR_FAQS = 80
 
 
 @dataclass
@@ -58,6 +61,17 @@ async def find_faq(session: AsyncSession, text: str, language: str) -> FAQ | Non
         if score > best_score:
             best, best_score = faq, score
     return best if best is not None and best_score >= FAQ_MIN_SCORE else None
+
+
+async def similar_faqs(session: AsyncSession, text: str, language: str, limit: int = SIMILAR_FAQS) -> list[FAQ]:
+    """The active FAQs closest to the question (user's language first), given to the AI as context."""
+    faqs = list((await session.execute(select(FAQ).where(FAQ.status == "Active"))).scalars())
+    same_language = [f for f in faqs if f.language == language] or faqs
+    return sorted(same_language, key=lambda f: faq_score(text, f), reverse=True)[:limit]
+
+
+def faq_context(faqs: list[FAQ]) -> str:
+    return "\n\n".join(f"Q: {f.question}\nA: {f.answer}" for f in faqs)
 
 
 async def find_article(session: AsyncSession, text: str, language: str) -> KnowledgeArticle | None:
@@ -122,12 +136,15 @@ async def route_message(session: AsyncSession, user: TelegramUser, text: str) ->
                 return Reply(answer, Source.AI)
         return Reply(article.content, Source.KNOWLEDGE)
 
-    # 5. AI without Knowledge Base context
-    answer = await ai.generate_answer(text, "", system_prompt, lang, bot)
-    if answer:
-        return Reply(answer, Source.AI)
+    # 5. AI with the most similar FAQs as context. It answers a question that is worded
+    #    differently from a FAQ, or replies NO_ANSWER (-> None) when none of them answers it.
+    if ai.ai_enabled():
+        context = faq_context(await similar_faqs(session, text, lang))
+        answer = await ai.generate_answer(text, context, system_prompt, lang, bot)
+        if answer:
+            return Reply(answer, Source.AI)
 
-    # 6. Fallback (+ remember the unknown question)
+    # 6. Fallback: say sorry and offer Human Support (+ remember the unknown question)
     await save_unknown_question(session, text)
     fallback_text = bot.fallback_message if bot and bot.fallback_message else t(lang, "fallback")
     return Reply(fallback_text, Source.FALLBACK, fallback=True)

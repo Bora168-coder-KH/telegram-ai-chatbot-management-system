@@ -43,7 +43,7 @@ def test_start_then_question_then_menu_button():
             # unknown question -> fallback with buttons
             unknown = fake_message("zzz qqq www")
             await handlers.on_text(unknown, session)
-            assert "did not understand" in unknown.answer.call_args.args[0]
+            assert "do not have an answer" in unknown.answer.call_args.args[0]
 
             saved = (await session.execute(select(DbMessage))).scalars().all()
             return len(saved)

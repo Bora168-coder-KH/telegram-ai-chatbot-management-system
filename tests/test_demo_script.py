@@ -110,7 +110,7 @@ def test_demo_script_in_order(monkeypatch):
 
         # 5. unknown question -> fallback, saved as unanswered
         unknown = text("is there a bus to campus")
-        assert "did not understand" in last(unknown)
+        assert "do not have an answer" in last(unknown)
         assert "menu:human" in buttons(unknown.answer.call_args.kwargs["reply_markup"])
 
         # 6. the form with two invalid answers

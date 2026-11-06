@@ -58,7 +58,7 @@ def test_question_to_resolved_support_request(monkeypatch):
         login(client)
         say("/start")
         assert "Monday" in say("What are your opening hours?")  # FAQ
-        assert "did not understand" in say("my certificate has a wrong birth date zqx")  # fallback
+        assert "do not have an answer" in say("my certificate has a wrong birth date zqx")  # fallback
         say("🧑‍💼 Human Support")
         cid = conversation_id()
         before = resolved_count()
